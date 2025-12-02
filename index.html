@@ -13,8 +13,8 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Kashif's Pro Calculator - A high-performance scientific calculator for web. Free online tool for students and engineers.">
-    <title>Kashif's Pro Calculator</title>
+    <meta name="description" content="Kashif's Pro Calculator - A high-performance scientific calculator for web. Free online tool for students, engineers, and developers.">
+    <title>Kashif's Pro Calculator - Free Online Scientific Tool</title>
     
     <style>
         /* --- RESET & CORE --- */
@@ -83,17 +83,38 @@
         .calc-body {
             width: 100%; max-width: 400px; background: var(--calc-body); border-radius: 20px; padding: 20px;
             box-shadow: 0 10px 25px var(--shadow); display: flex; flex-direction: column; position: relative;
-            z-index: 20; transition: background 0.3s; margin-bottom: 30px; flex-shrink: 0;
+            z-index: 20; transition: background 0.3s; margin-bottom: 10px; flex-shrink: 0;
         }
 
-        /* --- SEO CONTENT (Required for AdSense) --- */
-        .seo-section {
-            width: 100%; max-width: 800px; margin-top: 20px; padding: 20px;
-            background: var(--calc-body); border-radius: 12px; border: 1px solid var(--screen);
-            color: var(--text); margin-bottom: 20px;
+        /* --- BOUNCING ARROW STYLES (NEW) --- */
+        .scroll-indicator {
+            text-align: center; margin-bottom: 20px; cursor: pointer;
+            animation: bounce 2s infinite; display: flex; flex-direction: column; align-items: center;
         }
-        .seo-section h2 { color: var(--accent); font-size: 1.2rem; margin-bottom: 10px; }
-        .seo-section p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px; }
+        .scroll-indicator span {
+            font-size: 0.8rem; color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .scroll-indicator .arrow {
+            font-size: 1.5rem; color: var(--text-muted); margin-top: -5px;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* --- SEO CONTENT (Expanded for AdSense) --- */
+        .seo-section {
+            width: 100%; max-width: 800px; margin-top: 10px; padding: 30px;
+            background: var(--calc-body); border-radius: 12px; border: 1px solid var(--screen);
+            color: var(--text); margin-bottom: 30px;
+        }
+        .seo-section h2 { color: var(--accent); font-size: 1.4rem; margin-bottom: 15px; margin-top: 20px; border-bottom: 1px solid var(--screen); padding-bottom: 10px; }
+        .seo-section h2:first-child { margin-top: 0; }
+        .seo-section h3 { color: var(--text); font-size: 1.1rem; margin-bottom: 10px; margin-top: 15px; }
+        .seo-section p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 15px; }
+        .seo-section ul { padding-left: 20px; color: var(--text-muted); margin-bottom: 15px; }
+        .seo-section li { margin-bottom: 8px; font-size: 0.95rem; }
 
         /* --- FOOTER CREDIT --- */
         .footer-credit {
@@ -101,7 +122,7 @@
             padding: 20px 0; width: 100%;
         }
         .footer-credit span { color: var(--accent); font-weight: 700; }
-        .footer-credit a { color: var(--accent); text-decoration: none; margin-left: 5px; }
+        .footer-credit a { color: var(--accent); text-decoration: none; margin: 0 5px; }
 
         /* --- TABS & DISPLAY --- */
         .tabs { display: flex; background: var(--bg-dark); border-radius: 10px; padding: 4px; margin-bottom: 15px; transition: background 0.3s; }
@@ -258,15 +279,36 @@
             </div>
         </div>
 
+        <div class="scroll-indicator" onclick="scrollToContent()">
+            <span>Read Guide & Features</span>
+            <div class="arrow">&#8595;</div>
+        </div>
+
         <div class="seo-section">
-            <h2>About This Scientific Calculator</h2>
-            <p>Welcome to the ultimate online tool for students, engineers, and developers. Designed by Kashif Dawar, this calculator provides instant access to complex mathematical functions without requiring any software installation.</p>
-            <p><strong>How to use Scientific Mode:</strong> Toggle the tab at the top to access trigonometric functions (sin, cos, tan), logarithms (ln, exp), and advanced exponents. Note that trigonometric calculations are performed in Radians for maximum precision in engineering contexts.</p>
-            <p><strong>Privacy Focused:</strong> We believe in data security. All calculations are processed locally on your device using JavaScript. No mathematical data is sent to external servers.</p>
+            <h2>Complete Guide to Kashif's Scientific Calculator</h2>
+            <p>Welcome to the ultimate web-based calculation tool developed by Kashif Dawar. This application bridges the gap between standard physical calculators and modern computing power. Whether you are a student solving algebra, an engineer checking arithmetic, or a developer testing logic, this tool is designed for precision and speed.</p>
+            
+            <h3>Core Features and Functionality</h3>
+            <p>Our calculator offers two distinct modes to suit your specific needs:</p>
+            <ul>
+                <li><strong>Basic Mode:</strong> Perfect for everyday tasks like budgeting, grocery calculation, and simple arithmetic. It features large, easy-to-tap buttons and a clean interface.</li>
+                <li><strong>Scientific Mode:</strong> Designed for advanced mathematics. Access trigonometric functions (Sine, Cosine, Tangent), Logarithms (ln), Exponentials (e), and Powers. This mode is essential for high school and university students dealing with complex equations.</li>
+            </ul>
+
+            <h3>Why Choose This Online Calculator?</h3>
+            <p>Unlike other slow, ad-heavy calculators, Kashif's Pro Calculator is built on a lightweight JavaScript engine. This ensures that calculations happen instantly on your device without server lag. Additionally, our <strong>Responsive Design</strong> ensures the interface adapts perfectly whether you are on a mobile phone, tablet, or desktop computer.</p>
+            
+            <h3>Privacy and Data Security</h3>
+            <p>We prioritize your privacy. This tool is a client-side application, meaning all math is processed locally in your browser. We do not store your equations or results on any external servers. You can use this tool with confidence knowing your data remains on your device.</p>
+
+            <h3>Frequently Asked Questions (FAQ)</h3>
+            <p><strong>Is this calculator free?</strong><br>Yes, this tool is 100% free to use for educational and professional purposes.</p>
+            <p><strong>Does it support Dark Mode?</strong><br>Yes! Go to Settings in the side menu to toggle between our sleek Dark Mode and high-contrast Light Mode.</p>
         </div>
 
         <div class="footer-credit">
-            Architected & Engineered by <span>Kashif Dawar</span> | <a href="contact.html">Contact Us</a> | <a href="privacy.html" target="_blank">Privacy Policy</a>
+            Architected & Engineered by <span>Kashif Dawar</span> <br>
+            <a href="contact.html">Contact</a> | <a href="terms.html">Terms of Use</a> | <a href="privacy.html">Privacy Policy</a>
         </div>
     </div>
 
@@ -354,12 +396,18 @@
             overlay.classList.remove('active');
             document.getElementById('modal-signin').classList.remove('active');
             document.getElementById('modal-settings').classList.remove('active');
-            // Contact modal removed as it is now a page
         }
 
         function showToast(msg) {
             const toast = document.getElementById('toast'); toast.innerText = msg; toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // --- SCROLL LOGIC FOR ARROW (NEW) ---
+        function scrollToContent() {
+            document.querySelector('.seo-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
         }
 
         function handleNav(action) {
@@ -380,7 +428,6 @@
             else if (action === 'signin') {
                 setTimeout(() => { document.getElementById('modal-signin').classList.add('active'); overlay.classList.add('active'); }, 300);
             }
-            // Contact action removed, handled by simple HTML link
         }
 
         function switchTab(mode) {
