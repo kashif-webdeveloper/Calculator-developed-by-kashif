@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PTXNYWJ847"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PTXNYWJ847');
+    </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5524773081921512"
+     crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-5524773081921512">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Advanced Mortgage Calculator with Amortization Schedule. Estimate monthly payments, PMI, taxes, and payoff dates. Includes comprehensive FAQs and financial guide.">
+    
+    <title>Mortgage Calculator - Estimate Monthly Payments & Interest | Kashif's Tools</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e293b">
+    <link rel="apple-touch-icon" href="kashi calculator.png">
+    
+    <style>
+        /* --- CORE STYLES --- */
+        :root {
+            --bg-dark: #0f172a;
+            --calc-body: #1e293b;
+            --screen: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #06b6d4;
+            --btn-bg: #475569;
+            --btn-active: #64748b;
+            --operator: #0ea5e9;
+            --equals: #3b82f6;
+            --danger: #ef4444;
+            --sidebar-bg: #1e293b;
+            --modal-bg: #1e293b;
+            --shadow: rgba(0,0,0,0.5);
+            --card-bg: #334155;
+            --input-border: #475569;
+            --success: #10b981;
+        }
+
+        body.light-mode {
+            --bg-dark: #f1f5f9;
+            --calc-body: #ffffff;
+            --screen: #e2e8f0;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --accent: #0891b2;
+            --btn-bg: #cbd5e1;
+            --btn-active: #94a3b8;
+            --operator: #0284c7;
+            --equals: #2563eb;
+            --danger: #dc2626;
+            --sidebar-bg: #ffffff;
+            --modal-bg: #ffffff;
+            --shadow: rgba(0,0,0,0.15);
+            --card-bg: #f8fafc;
+            --input-border: #cbd5e1;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; font-family: 'Segoe UI', Roboto, sans-serif; touch-action: manipulation; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            width: 100vw;
+            display: flex; flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        header {
+            height: 60px; background: var(--calc-body); display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; border-bottom: 1px solid var(--screen); z-index: 2000; box-shadow: 0 2px 10px var(--shadow);
+            transition: background 0.3s; flex-shrink: 0; position: sticky; top: 0;
+        }
+        .hamburger { font-size: 24px; cursor: pointer; color: var(--accent); padding: 10px; }
+        .brand { font-size: 18px; font-weight: bold; letter-spacing: 1px; color: var(--text); }
+        .brand span { color: var(--accent); }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex: 1; 
+            display: flex; flex-direction: column; align-items: center;
+            padding: 20px 10px; position: relative; z-index: 10;
+            width: 100%;
+        }
+
+        /* --- MORTGAGE CALCULATOR UI --- */
+        .calc-body {
+            width: 100%; max-width: 600px; background: var(--calc-body); border-radius: 20px; padding: 25px;
+            box-shadow: 0 10px 25px var(--shadow); display: flex; flex-direction: column; position: relative;
+            z-index: 20; transition: background 0.3s; margin-bottom: 20px;
+        }
+
+        h2, h3, h4 { color: var(--text); }
+
+        .mortgage-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 10px; }
+        @media (max-width: 500px) { .mortgage-form { grid-template-columns: 1fr; } }
+
+        .input-wrapper { position: relative; margin-bottom: 10px; }
+        .input-wrapper label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
+        
+        /* --- FIXED INPUT GROUPS --- */
+        .input-group { 
+            display: flex; border-radius: 8px; overflow: hidden; border: 2px solid var(--input-border); 
+            background: var(--bg-dark); transition: 0.2s; 
+            width: 100%;
+        }
+        .input-group:focus-within { border-color: var(--accent); }
+        
+        .input-group input, .input-group select { 
+            padding: 12px; font-size: 16px; border: none; background: transparent; color: var(--text);
+            outline: none; flex-grow: 1; 
+            min-width: 0; 
+        }
+        
+        /* Fixed Dropdown Width for Symbols */
+        .input-group select { 
+            width: auto; 
+            min-width: 65px; /* Increased slightly to ensure symbol + arrow fit */
+            background: var(--screen); 
+            border-left: 1px solid var(--input-border); 
+            padding: 12px 5px; 
+            text-align: center;
+            color: var(--text); 
+            flex-grow: 0;
+            flex-shrink: 0; 
+            cursor: pointer;
+        }
+        .input-group option { background: var(--calc-body); color: var(--text); }
+
+        /* Standard inputs */
+        .input-wrapper input:not(.date-input) { 
+            width: 100%; padding: 12px 12px 12px 35px; font-size: 16px; border-radius: 8px;
+            border: 2px solid var(--input-border); background: var(--bg-dark); color: var(--text);
+            outline: none; transition: 0.2s; 
+        }
+        .input-wrapper input:focus:not(.date-input) { border-color: var(--accent); }
+        .input-icon { position: absolute; left: 12px; top: 34px; color: var(--text-muted); font-weight: bold; }
+
+        /* Cost/Extra Sections */
+        #tax-cost-section, #extra-payments-section, #annual-increase-section { border-top: 1px dashed var(--input-border); padding-top: 15px; margin-top: 15px; }
+        .section-toggle { color: var(--accent); cursor: pointer; display: block; margin-top: 15px; font-weight: bold; font-size: 0.95rem; user-select: none; }
+        .section-toggle:hover { text-decoration: underline; }
+
+        /* Results Box */
+        .results-box {
+            width: 100%; max-width: 600px;
+            background: var(--screen); border-radius: 12px; padding: 20px; margin-top: 20px;
+            text-align: center; border: 1px solid var(--input-border);
+        }
+        .monthly-payment-label { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .monthly-payment-value { font-size: 2.2rem; font-weight: bold; color: var(--success); margin: 5px 0 15px; word-break: break-all;}
+        
+        .detailed-breakdown { width: 100%; margin-top: 15px; border-top: 1px solid var(--input-border); padding-top: 15px; text-align: left;}
+        .breakdown-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--input-border); font-size: 0.95rem;}
+        .breakdown-row:last-child { border-bottom: none; }
+        .breakdown-label { color: var(--text-muted); }
+        .breakdown-value { color: var(--text); font-weight: 600; }
+        
+        .breakdown-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 20px; text-align: center; }
+        .breakdown-item h4 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
+        .breakdown-item p { font-size: 1rem; font-weight: bold; color: var(--text); }
+
+        /* Buttons */
+        .btn-calc { background: var(--accent); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.2s; width: 100%; margin-top: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .btn-calc:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        /* --- SEO Content & Footer --- */
+        .seo-section {
+            width: 100%; max-width: 800px; margin-top: 10px; padding: 30px;
+            background: var(--calc-body); border-radius: 12px; border: 1px solid var(--screen);
+            color: var(--text); margin-bottom: 20px; box-shadow: 0 4px 6px var(--shadow);
+        }
+        .seo-section h1 { color: var(--accent); font-size: 1.8rem; margin-bottom: 20px; border-bottom: 1px solid var(--screen); padding-bottom: 10px; }
+        .seo-section h2 { color: var(--text); font-size: 1.5rem; margin-top: 30px; margin-bottom: 15px; font-weight: 600; border-left: 4px solid var(--accent); padding-left: 10px; }
+        .seo-section h3 { color: var(--text); font-size: 1.2rem; margin-top: 25px; margin-bottom: 10px; font-weight: 600; }
+        .seo-section p { font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 15px; text-align: justify; }
+        .seo-section ul, .seo-section ol { list-style: none; padding: 0; margin-bottom: 15px; }
+        .seo-section li { margin-bottom: 12px; padding-left: 15px; border-left: 2px solid var(--screen); color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        .seo-section strong { color: var(--text); font-weight: 700; }
+        
+        .faq-item { border-bottom: 1px solid var(--screen); padding-bottom: 15px; margin-bottom: 15px; }
+        .faq-question { font-weight: bold; color: var(--accent); font-size: 1.1rem; margin-bottom: 8px; display: block; }
+        .faq-answer { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+        .footer-credit { margin-top: auto; text-align: center; font-size: 0.8rem; color: var(--text-muted); padding: 20px 0; width: 100%; border-top: 1px solid var(--screen); }
+        .footer-credit span { color: var(--accent); font-weight: 700; }
+        .footer-credit a { color: var(--accent); text-decoration: none; margin: 0 5px; cursor: pointer; }
+        
+        /* Mobile Specific Overrides */
+        @media (max-width: 480px) {
+            .breakdown-grid { grid-template-columns: 1fr; gap: 15px; }
+            .input-group select { padding: 12px 2px; font-size: 14px; min-width: 60px; }
+        }
+
+        /* Overlay & Sidebar (Standard) */
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 4000; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(2px); }
+        .overlay.active { opacity: 1; pointer-events: all; }
+        .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: var(--sidebar-bg); z-index: 5000; transition: transform 0.3s ease, background 0.3s; box-shadow: 5px 0 20px var(--shadow); padding: 20px; display: flex; flex-direction: column; overflow-y: auto; }
+        .sidebar.open { transform: translateX(300px); }
+        .profile { text-align: center; border-bottom: 1px solid var(--screen); padding-bottom: 20px; margin-bottom: 20px; }
+        .avatar { width: 80px; height: 80px; background: linear-gradient(45deg, var(--accent), #3b82f6); border-radius: 50%; margin: 40px auto 15px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; color: white; }
+        .menu-item { padding: 15px; color: var(--text-muted); border-radius: 8px; margin-bottom: 5px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; position: relative; z-index: 5001; text-decoration: none; font-size: 16px; }
+        .menu-item:hover, .menu-item:active { background: var(--screen); color: var(--accent); }
+        
+        /* Modal */
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 85%; max-width: 320px; background: var(--modal-bg); border: 1px solid var(--screen); border-radius: 16px; padding: 20px; z-index: 6000; opacity: 0; pointer-events: none; transition: 0.2s, background 0.3s; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .modal.active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
+        .switch-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--screen); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(24px); }
+        .modal-btn { width: 100%; background: var(--accent); color: white; font-weight: bold; padding: 12px; border-radius: 6px; border: none; cursor: pointer; }
+        .close-modal { position: absolute; top: 10px; right: 15px; color: var(--text-muted); font-size: 24px; cursor: pointer; }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 10px 20px; border-radius: 30px; font-size: 14px; opacity: 0; transition: 0.3s; z-index: 7000; pointer-events: none; }
+        .toast.show { opacity: 1; bottom: 50px; }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+    <div class="toast" id="toast">Action Successful</div>
+
+    <div class="sidebar" id="sidebar">
+        <div style="position:absolute; top:15px; right:15px; font-size:24px; padding:10px; color:var(--text-muted); cursor:pointer;" onclick="closeAll()">&times;</div>
+        <div class="profile">
+            <div class="avatar">K</div>
+            <h2 style="color:var(--text);">Kashif</h2>
+            <p style="color: var(--accent); font-weight:bold; margin-bottom: 8px; font-size: 0.9rem;">Elite Full-Stack Architect</p>
+        </div>
+        
+        <a href="index.html" class="menu-item" onclick="closeAll()"><span>&#8962;</span> Home</a>
+        <a href="log-calculator.html" class="menu-item" onclick="closeAll()"><span>log</span> Log Calculator</a>
+        
+        <div class="menu-item" style="background: var(--screen); color: var(--accent); font-weight: bold;"><span>$</span> Mortgage Calculator</div>
+
+        <a href="exponent.html" class="menu-item" onclick="closeAll()"><span>^</span> Exponent Calculator</a>
+        <a href="fraction.html" class="menu-item" onclick="closeAll()"><span>½</span> Fraction Calculator</a>
+        <a href="percentage.html" class="menu-item" onclick="closeAll()"><span>%</span> Percentage Calculator</a>
+        
+        <div class="menu-item" onclick="openSettings()"><span>&#9881;</span> Settings</div>
+        <a href="contact.html" class="menu-item" onclick="closeAll()"><span>&#128100;</span> Contact Developer</a>
+    </div>
+
+    <div class="modal" id="modal-settings">
+        <span class="close-modal" onclick="closeAll()">&times;</span>
+        <h3>Settings</h3>
+        <div class="switch-container">
+            <span class="switch-label">Light Mode</span>
+            <label class="switch"><input type="checkbox" id="theme-toggle" onchange="toggleTheme()"><span class="slider"></span></label>
+        </div>
+        <button class="modal-btn" onclick="showToast('Preferences Saved'); closeAll()">Done</button>
+    </div>
+
+    <header>
+        <div class="hamburger" onclick="openSidebar()">&#9776;</div>
+        <div class="brand">CALCULATOR<span>.NET</span></div>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <div class="main-content">
+        
+        <div class="calc-body">
+            <h2 style="color:var(--text); text-align:center; margin-bottom:20px;">Advanced Mortgage Estimator</h2>
+            
+            <div class="mortgage-form">
+                <div class="input-wrapper">
+                    <label>Home Price</label>
+                    <span class="input-icon">$</span>
+                    <input type="number" id="home-price" value="400000" placeholder="0">
+                </div>
+
+                <div class="input-wrapper">
+                    <label>Down Payment</label>
+                    <div class="input-group">
+                        <input type="number" id="down-payment-val" value="20" placeholder="0">
+                        <select id="down-payment-unit">
+                            <option value="percent">%</option>
+                            <option value="dollar">$</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-wrapper">
+                    <label>Loan Term</label>
+                    <span class="input-icon">&#128197;</span>
+                    <input type="number" id="loan-term" value="30" placeholder="Years">
+                </div>
+
+                <div class="input-wrapper">
+                    <label>Interest Rate</label>
+                    <span class="input-icon">%</span>
+                    <input type="number" id="interest-rate" value="6.192" step="0.001" placeholder="Rate">
+                </div>
+
+                <div class="input-wrapper">
+                    <label>Start Date</label>
+                    <div class="input-group">
+                        <select id="start-month" style="width: 50%;">
+                            <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                            <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                            <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                            <option value="10">Oct</option><option value="11">Nov</option><option value="12" selected>Dec</option>
+                        </select>
+                        <input type="number" id="start-year" class="date-input" value="2025" style="padding-left: 12px;">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="tax-cost-section">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <label style="font-weight: bold; color: var(--text); font-size:1rem;">Include Taxes & Costs</label>
+                    <input type="checkbox" id="include-tax-check" checked style="width: 18px; height: 18px; accent-color: var(--accent);">
+                </div>
+                
+                <div id="tax-inputs-container" style="margin-top: 15px;">
+                    <div class="mortgage-form">
+                        <div class="input-wrapper">
+                            <label>Property Taxes / Year</label>
+                            <div class="input-group">
+                                <input type="number" id="prop-tax-val" value="1.2">
+                                <select id="prop-tax-unit"><option value="percent">%</option><option value="dollar">$</option></select>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Home Insurance / Year</label>
+                            <div class="input-group">
+                                <input type="number" id="home-ins-val" value="1500">
+                                <select id="home-ins-unit"><option value="dollar">$</option><option value="percent">%</option></select>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label>PMI Insurance / Year</label>
+                            <div class="input-group">
+                                <input type="number" id="pmi-val" value="0">
+                                <select id="pmi-unit"><option value="dollar">$</option><option value="percent">%</option></select>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label>HOA Fee / Month</label>
+                            <div class="input-group">
+                                <input type="number" id="hoa-val" value="0">
+                                <select id="hoa-unit" disabled><option value="dollar">$</option></select>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Other Costs / Year</label>
+                            <div class="input-group">
+                                <input type="number" id="other-cost-val" value="4000">
+                                <select id="other-cost-unit"><option value="dollar">$</option><option value="percent">%</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-toggle" onclick="toggleSection('annual-increase-section')">+ More Options (Annual Cost Increase)</div>
+
+                    <div id="annual-increase-section" style="display:none;">
+                        <h4 style="color:var(--text-muted); margin-bottom: 10px; font-size:0.9rem;">Annual Increase</h4>
+                        <div class="mortgage-form" style="gap: 10px;">
+                            <div class="input-wrapper">
+                                <label>Property Tax</label>
+                                <div class="input-group">
+                                    <input type="number" id="inc-tax" value="0" placeholder="0">
+                                    <select id="inc-tax-unit"><option value="percent">%</option><option value="dollar">$</option></select>
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <label>Home Ins.</label>
+                                <div class="input-group">
+                                    <input type="number" id="inc-ins" value="0" placeholder="0">
+                                    <select id="inc-ins-unit"><option value="percent">%</option><option value="dollar">$</option></select>
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <label>HOA Fee</label>
+                                <div class="input-group">
+                                    <input type="number" id="inc-hoa" value="0" placeholder="0">
+                                    <select id="inc-hoa-unit"><option value="percent">%</option><option value="dollar">$</option></select>
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <label>Other Costs</label>
+                                <div class="input-group">
+                                    <input type="number" id="inc-other" value="0" placeholder="0">
+                                    <select id="inc-other-unit"><option value="percent">%</option><option value="dollar">$</option></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-toggle" onclick="toggleSection('extra-payments-section')">+ Extra Payments & Payoff Strategy</div>
+            
+            <div id="extra-payments-section" style="display:none;">
+                
+                <div class="input-wrapper" style="margin-bottom: 12px;">
+                    <label>Extra Monthly Pay</label>
+                    <div style="display:flex; gap:5px;">
+                        <div class="input-group" style="flex:1;">
+                            <input type="number" id="extra-monthly-val" value="0">
+                            <select id="extra-monthly-unit"><option value="dollar">$</option><option value="percent">%</option></select>
+                        </div>
+                        <div class="input-group" style="flex:1;">
+                            <select id="extra-monthly-month"></select>
+                            <input type="number" id="extra-monthly-year" value="2025" style="width: 60px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-wrapper" style="margin-bottom: 12px;">
+                    <label>Extra Yearly Pay</label>
+                    <div style="display:flex; gap:5px;">
+                        <div class="input-group" style="flex:1;">
+                            <input type="number" id="extra-yearly-val" value="0">
+                            <select id="extra-yearly-unit"><option value="dollar">$</option><option value="percent">%</option></select>
+                        </div>
+                        <div class="input-group" style="flex:1;">
+                            <select id="extra-yearly-month"></select>
+                            <input type="number" id="extra-yearly-year" value="2025" style="width: 60px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-wrapper" style="margin-bottom: 12px;">
+                    <label>Extra One-time Pay</label>
+                    <div style="display:flex; gap:5px;">
+                        <div class="input-group" style="flex:1;">
+                            <input type="number" id="extra-onetime-val" value="0">
+                            <select id="extra-onetime-unit"><option value="dollar">$</option><option value="percent">%</option></select>
+                        </div>
+                        <div class="input-group" style="flex:1;">
+                            <select id="extra-onetime-month"></select>
+                            <input type="number" id="extra-onetime-year" value="2025" style="width: 60px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: center; margin-top: 15px;">
+                    <input type="checkbox" id="biweekly-check" checked style="width: 20px; height: 20px; margin-right: 10px; accent-color: var(--accent);">
+                    <label for="biweekly-check" style="font-size: 0.9rem; color: var(--text);">Show Biweekly Payback Results</label>
+                </div>
+            </div>
+
+            <button class="btn-calc" onclick="calculateMortgage()">Calculate Payments</button>
+
+            <div class="results-box">
+                <div class="monthly-payment-label">Total Monthly Payment</div>
+                <div class="monthly-payment-value" id="res-total-monthly">$0.00</div>
+                <p style="font-size:0.8rem; color:var(--text-muted);">(Initially)</p>
+                
+                <div class="detailed-breakdown">
+                    <div class="breakdown-row"><span class="breakdown-label">Principal & Interest</span><span class="breakdown-value" id="res-pi">$0.00</span></div>
+                    <div class="breakdown-row"><span class="breakdown-label">Property Tax</span><span class="breakdown-value" id="res-tax">$0.00</span></div>
+                    <div class="breakdown-row"><span class="breakdown-label">Home Insurance</span><span class="breakdown-value" id="res-ins">$0.00</span></div>
+                    <div class="breakdown-row"><span class="breakdown-label">PMI / HOA / Other</span><span class="breakdown-value" id="res-fees">$0.00</span></div>
+                </div>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-item"><h4>Total Interest</h4><p id="res-total-int">$0</p></div>
+                    <div class="breakdown-item"><h4>Total Paid</h4><p id="res-total-paid">$0</p></div>
+                    <div class="breakdown-item"><h4>Payoff Date</h4><p id="res-date">-</p></div>
+                </div>
+            </div>
+            
+            <div id="biweekly-results" class="results-box" style="display:none; margin-top: 15px; border: 1px dashed var(--success);">
+                <div class="monthly-payment-label">Biweekly Strategy</div>
+                <div class="monthly-payment-value" id="res-bi-amt" style="color: var(--success); font-size: 1.8rem;">$0.00</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Payoff Date: <span id="res-bi-date" style="color: var(--text); font-weight: bold;">-</span></div>
+                <div style="font-size: 0.8rem; color: var(--accent); margin-top:5px;">Interest Savings: <span id="res-bi-save">-</span></div>
+            </div>
+
+        </div>
+
+        <div class="scroll-indicator" style="color:var(--accent); text-align:center; margin-bottom:20px; cursor:pointer;" onclick="document.getElementById('content-section').scrollIntoView({behavior: 'smooth'})">
+            READ FULL GUIDE & ANALYSIS &#8595;
+        </div>
+
+        <div class="seo-section" id="content-section">
+            <h1>Comprehensive Mortgage Guide: Finance, Strategy & Calculation</h1>
+            
+            <p>Welcome to <strong>Kashif's Advanced Mortgage Calculator</strong>. Purchasing real estate is likely the largest financial transaction of your life. Whether you are a first-time homebuyer in the United States, a seasoned investor analyzing rental yields, or a homeowner considering refinancing, precise mathematics is your best defense against bad debt.</p>
+            
+            <p>This tool goes beyond simple estimations. By accounting for property taxes, HOA fees, private mortgage insurance (PMI), and potential annual cost increases, we provide a realistic forecast of your long-term wealth. Below is an extensive guide to mastering your mortgage.</p>
+
+            <h2>1. Anatomy of a Mortgage Payment</h2>
+            <p>Most borrowers focus on the "sticker price" of a home, but the monthly cash flow requirement is determined by four key components, often referred to as <strong>PITI</strong>:</p>
+            
+            <ul>
+                <li><strong>Principal:</strong> The portion of your payment that reduces the loan balance. In the early years of a 30-year loan, this portion is frustratingly small.</li>
+                <li><strong>Interest:</strong> The fee charged by the lender. On a standard amortization schedule, interest is front-loaded, meaning the bank gets paid first.</li>
+                <li><strong>Taxes:</strong> Property taxes are levied by local governments to fund schools and infrastructure. These never go away, even after the loan is paid off.</li>
+                <li><strong>Insurance:</strong> Homeowners insurance protects against damage. If you put less than 20% down, you may also pay Mortgage Insurance (PMI/MIP).</li>
+            </ul>
+
+            <h2>2. Understanding the Input Variables</h2>
+            <p>To use this calculator effectively, you must understand how small changes in inputs can drastically alter your financial future.</p>
+
+            <h3>Down Payment: The 20% Rule</h3>
+            <p>The down payment is your initial equity stake. While many programs (like FHA loans) allow for as little as 3.5% down, the "Gold Standard" remains 20%. Why? Because putting 20% down usually eliminates the need for <strong>Private Mortgage Insurance (PMI)</strong>. PMI protects the lender, not you, and typically costs 0.5% to 1% of the loan amount annually. On a $400,000 home, avoiding PMI saves you $200-$300 per month immediately.</p>
+
+            <h3>Loan Term: 15 vs. 30 Years</h3>
+            <p>The <strong>30-Year Fixed</strong> is the most common loan in the U.S. It offers the lowest monthly payment but maximizes the total interest paid. The <strong>15-Year Fixed</strong> loan will have a higher monthly payment (often 30-40% higher), but the interest rate is usually lower, and you will pay less than half the total interest over the life of the loan. Use the calculator to compare these two scenarios.</p>
+
+            <h3>Interest Rates & APR</h3>
+            <p>Your interest rate is determined by the Federal Reserve's benchmark rates, the bond market, and your personal credit score. A difference of just 1% in interest rate can equal $100,000 in extra costs over 30 years. Always shop around with multiple lenders.</p>
+
+            <h2>3. Hidden Costs of Homeownership</h2>
+            <p>Novice buyers often calculate the mortgage payment but forget the "carrying costs." This calculator allows you to input:</p>
+            
+            <ul>
+                <li><strong>HOA Fees:</strong> Homeowners Association fees are mandatory in many condos and planned communities. They cover common areas but can rise annually.</li>
+                <li><strong>Maintenance:</strong> A rule of thumb is to budget 1% of your home's value every year for repairs (roof, HVAC, painting).</li>
+                <li><strong>Annual Cost Increases:</strong> Property taxes and insurance premiums rarely stay flat. Use the "Annual Increase" section of our tool to see what your payment might look like in 10 years if taxes rise by 2% annually.</li>
+            </ul>
+
+            <h2>4. Strategies to Pay Off Your Mortgage Faster</h2>
+            <p>Becoming mortgage-free is a major financial milestone. Here are three mathematical strategies you can model with this calculator:</p>
+
+            <h3>The Bi-Weekly Payment Method</h3>
+            <p>Instead of paying monthly, you pay half of your monthly payment every two weeks. Since there are 52 weeks in a year, you make 26 half-payments. This equals 13 full payments per year instead of 12. This simple trick can shave 4 to 6 years off a 30-year mortgage without requiring a massive change in lifestyle.</p>
+
+            <h3>Principal Only Payments</h3>
+            <p>Any money paid above the required amount goes 100% toward the principal. If you receive a year-end bonus or a tax refund, applying it to your mortgage balance reduces the interest charged in *every subsequent month*. Use the "Extra One-time Pay" feature to see how a $5,000 lump sum payment today affects your payoff date.</p>
+
+            <h3>Refinancing</h3>
+            <p>If interest rates drop significantly (usually 1% or more lower than your current rate), refinancing can save money. However, be careful of "closing costs" which can eat into your savings. Calculate the "break-even point" to ensure it makes sense.</p>
+
+            <h2>5. Investment Analysis: Rent vs. Buy</h2>
+            <p>Is buying always better? Not necessarily. Use this calculator to determine your "unrecoverable costs" (Interest + Taxes + Insurance + Maintenance). If these costs are higher than the cost to rent a comparable property, renting might be the smarter financial move in the short term, allowing you to invest the difference in the stock market.</p>
+            
+            <h2>6. Frequently Asked Questions (FAQ)</h2>
+            
+            <div class="faq-item">
+                <span class="faq-question">What is the difference between Interest Rate and APR?</span>
+                <span class="faq-answer">The <strong>Interest Rate</strong> is the cost of borrowing the principal loan amount. The <strong>APR (Annual Percentage Rate)</strong> is a broader measure that includes the interest rate PLUS other costs such as broker fees, discount points, and closing costs. The APR is a more accurate representation of the true cost of the loan.</span>
+            </div>
+
+            <div class="faq-item">
+                <span class="faq-question">How much house can I afford?</span>
+                <span class="faq-answer">Lenders typically use the <strong>28/36 rule</strong>. This states that your housing expenses (PITI) should not exceed 28% of your gross monthly income, and your total debt-to-income ratio (DTI) should not exceed 36%. Use this calculator to tweak the home price until the monthly payment fits within 28% of your income.</span>
+            </div>
+
+            <div class="faq-item">
+                <span class="faq-question">Does making extra payments reduce my monthly bill?</span>
+                <span class="faq-answer">Generally, no. On a fixed-rate mortgage, making extra payments reduces your <strong>loan balance</strong> and shortens the <strong>loan term</strong>, but your required monthly payment remains the same. To lower the monthly bill, you would need to "recast" the mortgage or refinance.</span>
+            </div>
+
+            <div class="faq-item">
+                <span class="faq-question">What are Closing Costs?</span>
+                <span class="faq-answer">Closing costs are fees paid at the end of a real estate transaction. They typically range from 2% to 5% of the loan amount and include appraisal fees, title searches, loan origination fees, and prepaid property taxes. It is crucial to have this cash saved in addition to your down payment.</span>
+            </div>
+
+            <div class="faq-item">
+                <span class="faq-question">What happens if interest rates go up?</span>
+                <span class="faq-answer">If you have a <strong>Fixed-Rate Mortgage</strong>, nothing happens—your rate is locked in for the life of the loan. If you have an <strong>Adjustable-Rate Mortgage (ARM)</strong>, your payment will increase when the rate resets. This calculator helps you stress-test your budget against higher rates.</span>
+            </div>
+
+            <h2>7. Mortgage Jargon Decoder</h2>
+            <ul>
+                <li><strong>Amortization:</strong> The schedule of payments that pays off a loan over time.</li>
+                <li><strong>Escrow:</strong> A third-party account where funds are held to pay taxes and insurance.</li>
+                <li><strong>Equity:</strong> The difference between your home's value and what you owe.</li>
+                <li><strong>Lien:</strong> A legal right to keep possession of property belonging to another person until a debt owed by that person is discharged.</li>
+                <li><strong>Pre-approval:</strong> A letter from a lender indicating how much they are willing to lend you based on your financial health.</li>
+            </ul>
+
+            <p style="margin-top: 40px; border-top: 1px solid var(--screen); padding-top:20px;">
+                <em>This high-performance tool is engineered by Kashif Dawar to assist with financial planning. Data is for estimation purposes only. Always consult a qualified loan officer for official quotes.</em>
+            </p>
+        </div>
+        
+        <div class="footer-credit">
+            Architected & Engineered by <span>Kashif Dawar</span> | <a href="index.html">Home</a> | <a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Use</a>
+        </div>
+    </div>
+
+    <script>
+        // --- CORE STATE & UI ---
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        window.onload = function() {
+            if (localStorage.getItem('theme') === 'light') { 
+                document.body.classList.add('light-mode'); 
+                themeToggle.checked = true; 
+            }
+            populateDateDropdowns();
+            calculateMortgage(); // Auto Calculate on Load
+        };
+
+        function toggleTheme() {
+            if (themeToggle.checked) { 
+                document.body.classList.add('light-mode'); 
+                localStorage.setItem('theme', 'light'); 
+            } else { 
+                document.body.classList.remove('light-mode'); 
+                localStorage.setItem('theme', 'dark'); 
+            }
+        }
+
+        function populateDateDropdowns() {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const ids = ['extra-monthly-month', 'extra-yearly-month', 'extra-onetime-month'];
+            
+            ids.forEach(id => {
+                const sel = document.getElementById(id);
+                months.forEach((m, i) => {
+                    const opt = document.createElement('option');
+                    opt.value = i + 1;
+                    opt.text = m;
+                    if(i === 11) opt.selected = true; // Default Dec
+                    sel.add(opt);
+                });
+            });
+        }
+
+        // --- NAVIGATION & UTILS ---
+        function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('active'); }
+        function closeAll() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.getElementById('modal-settings').classList.remove('active');
+        }
+        function openSettings() {
+            closeAll();
+            setTimeout(() => { 
+                document.getElementById('modal-settings').classList.add('active'); 
+                overlay.classList.add('active'); 
+            }, 300);
+        }
+        function showToast(msg) {
+            const toast = document.getElementById('toast'); 
+            toast.innerText = msg; 
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        
+        function toggleSection(id) {
+            const section = document.getElementById(id);
+            const toggle = document.querySelector(`[onclick="toggleSection('${id}')"]`);
+            
+            if (section.style.display === 'none' || !section.style.display) {
+                section.style.display = 'block';
+                if(toggle) toggle.innerText = toggle.innerText.replace('+','-').replace('More','Fewer');
+            } else {
+                section.style.display = 'none';
+                if(toggle) toggle.innerText = toggle.innerText.replace('-','+').replace('Fewer','More');
+            }
+        }
+
+        function formatMoney(amount) {
+            return '$' + (Math.round(amount * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        
+        function getFloat(id) { return parseFloat(document.getElementById(id).value) || 0; }
+        function getInt(id) { return parseInt(document.getElementById(id).value) || 0; }
+
+        // --- CALCULATION LOGIC ---
+
+        function calculateMortgage() {
+            // 1. Inputs
+            const homePrice = getFloat('home-price');
+            const downUnit = document.getElementById('down-payment-unit').value;
+            let downPayment = getFloat('down-payment-val');
+            
+            // Normalize Down Payment
+            if (downUnit === 'percent') {
+                downPayment = homePrice * (downPayment / 100);
+            }
+            
+            const loanAmount = homePrice - downPayment;
+            const termYears = getFloat('loan-term');
+            const annualRate = getFloat('interest-rate');
+            const startMonth = getInt('start-month');
+            const startYear = getInt('start-year');
+            
+            if (homePrice <= 0 || termYears <= 0) {
+                return; // Silently fail or use defaults
+            }
+
+            // 2. Parse Costs (Convert all to Monthly Dollar Amounts or initial annuals)
+            const includeTax = document.getElementById('include-tax-check').checked;
+            
+            let propTax = 0, homeIns = 0, pmi = 0, hoa = 0, other = 0;
+            // Get Units for Increases
+            let incTaxVal = getFloat('inc-tax');
+            let incInsVal = getFloat('inc-ins');
+            let incHoaVal = getFloat('inc-hoa');
+            let incOtherVal = getFloat('inc-other');
+            
+            let incTaxUnit = document.getElementById('inc-tax-unit').value;
+            let incInsUnit = document.getElementById('inc-ins-unit').value;
+            let incHoaUnit = document.getElementById('inc-hoa-unit').value;
+            let incOtherUnit = document.getElementById('inc-other-unit').value;
+
+            if (includeTax) {
+                // Helper to get annual dollar value
+                const getVal = (idBase) => {
+                    const val = getFloat(idBase + '-val');
+                    const unit = document.getElementById(idBase + '-unit').value;
+                    return (unit === 'percent') ? homePrice * (val / 100) : val;
+                };
+
+                propTax = getVal('prop-tax') / 12; // Monthly
+                homeIns = getVal('home-ins') / 12; // Monthly
+                pmi = getVal('pmi') / 12;          // Monthly
+                other = getVal('other-cost') / 12; // Monthly
+                hoa = getFloat('hoa-val');         // Already Monthly
+            }
+
+            // 3. Extra Payments Setup (with new Unit logic)
+            // Extra Monthly
+            const exMonthlyVal = getFloat('extra-monthly-val');
+            const exMonthlyUnit = document.getElementById('extra-monthly-unit').value;
+            const exMonthlyStart = new Date(getInt('extra-monthly-year'), getInt('extra-monthly-month') - 1).getTime();
+            
+            // Extra Yearly
+            const exYearlyVal = getFloat('extra-yearly-val');
+            const exYearlyUnit = document.getElementById('extra-yearly-unit').value;
+            const exYearlyStart = new Date(getInt('extra-yearly-year'), getInt('extra-yearly-month') - 1).getTime();
+            
+            // Extra One Time
+            const exOneTimeVal = getFloat('extra-onetime-val');
+            const exOneTimeUnit = document.getElementById('extra-onetime-unit').value;
+            const exOneTimeDate = new Date(getInt('extra-onetime-year'), getInt('extra-onetime-month') - 1).getTime();
+
+            // 4. Amortization Simulation
+            let balance = loanAmount;
+            let monthRate = (annualRate / 100) / 12;
+            let totalMonths = termYears * 12;
+            
+            // Calculate Base P&I
+            let monthlyPI = 0;
+            if (annualRate === 0) monthlyPI = loanAmount / totalMonths;
+            else {
+                const x = Math.pow(1 + monthRate, totalMonths);
+                monthlyPI = (loanAmount * x * monthRate) / (x - 1);
+            }
+            
+            // --- Helper for Extra Payment Amounts ---
+            // Monthly % is based on Monthly P&I
+            const getMonthlyExtra = () => (exMonthlyUnit === 'dollar') ? exMonthlyVal : (monthlyPI * exMonthlyVal / 100);
+            
+            // Yearly/OneTime % is based on Original Loan Amount (Standard behavior)
+            const getYearlyExtra = () => (exYearlyUnit === 'dollar') ? exYearlyVal : (loanAmount * exYearlyVal / 100);
+            const getOneTimeExtra = () => (exOneTimeUnit === 'dollar') ? exOneTimeVal : (loanAmount * exOneTimeVal / 100);
+
+
+            let totalInterest = 0;
+            let totalPaid = 0; // Only P&I + Extra
+            let currentDisplayDate = new Date(startYear, startMonth - 1);
+            let payoffDateStr = "";
+
+            // Costs for initial display
+            const initialMonthlyCost = monthlyPI + propTax + homeIns + pmi + hoa + other;
+            document.getElementById('res-total-monthly').innerText = formatMoney(initialMonthlyCost);
+            document.getElementById('res-pi').innerText = formatMoney(monthlyPI);
+            document.getElementById('res-tax').innerText = formatMoney(propTax);
+            document.getElementById('res-ins').innerText = formatMoney(homeIns);
+            document.getElementById('res-fees').innerText = formatMoney(pmi + hoa + other);
+
+            // Simulation Loop
+            let actualMonths = 0;
+            let loopBalance = loanAmount;
+            
+            // Dynamic cost trackers
+            let currTax = propTax;
+            let currIns = homeIns;
+            let currHoa = hoa;
+            let currOther = other;
+
+            // Safety break 60 years
+            for (let m = 0; m < 720; m++) {
+                if (loopBalance <= 0) break;
+
+                let currentDate = new Date(startYear, startMonth - 1 + m);
+                let currentTime = currentDate.getTime();
+
+                // Apply Increase every 12 months (Jan)
+                if (m > 0 && m % 12 === 0) {
+                    // Property Tax Logic
+                    if(incTaxUnit === 'percent') currTax *= (1 + incTaxVal / 100);
+                    else currTax += (incTaxVal / 12); // Add annual fixed dollar increase converted to monthly
+
+                    // Home Ins Logic
+                    if(incInsUnit === 'percent') currIns *= (1 + incInsVal / 100);
+                    else currIns += (incInsVal / 12);
+
+                    // HOA Logic
+                    if(incHoaUnit === 'percent') currHoa *= (1 + incHoaVal / 100);
+                    else currHoa += (incHoaVal); // HOA is already monthly input, if user meant annual $ increase, divide by 12?
+                    // Assuming HOA input was monthly, a fixed $ increase usually means "Fees go up by $10/month".
+                    // Let's assume input for HOA increase in $ is a monthly increase.
+                    
+                    // Other Costs Logic
+                    if(incOtherUnit === 'percent') currOther *= (1 + incOtherVal / 100);
+                    else currOther += (incOtherVal / 12);
+                }
+
+                // Interest
+                let interestPayment = loopBalance * monthRate;
+                let principalPayment = monthlyPI - interestPayment;
+                
+                // Add Extra Payments
+                let extra = 0;
+                if (currentTime >= exMonthlyStart) extra += getMonthlyExtra();
+                
+                // Check exact month for yearly (comparing month index)
+                if (currentTime >= exYearlyStart && currentDate.getMonth() === new Date(exYearlyStart).getMonth()) {
+                     extra += getYearlyExtra();
+                }
+                
+                // Check exact month/year for One Time
+                if (currentDate.getMonth() === new Date(exOneTimeDate).getMonth() && 
+                    currentDate.getFullYear() === new Date(exOneTimeDate).getFullYear()) {
+                    extra += getOneTimeExtra();
+                }
+
+                if (principalPayment + extra > loopBalance) {
+                    principalPayment = loopBalance;
+                    extra = 0; // Consumed by principal logic
+                }
+
+                loopBalance -= (principalPayment + extra);
+                totalInterest += interestPayment;
+                totalPaid += (interestPayment + principalPayment + extra);
+                actualMonths++;
+            }
+
+            // Set Dates
+            let finalDate = new Date(startYear, startMonth - 1 + actualMonths);
+            payoffDateStr = finalDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+            document.getElementById('res-total-int').innerText = formatMoney(totalInterest);
+            document.getElementById('res-total-paid').innerText = formatMoney(totalPaid);
+            document.getElementById('res-date').innerText = payoffDateStr;
+
+            // 5. Bi-Weekly Calc (Simplified Simulation)
+            const biCheck = document.getElementById('biweekly-check').checked;
+            const biBox = document.getElementById('biweekly-results');
+            
+            if(biCheck && annualRate > 0) {
+                biBox.style.display = 'block';
+                let biPayment = monthlyPI / 2;
+                document.getElementById('res-bi-amt').innerText = formatMoney(biPayment) + " / 2 weeks";
+                
+                // Run mini sim for biweekly (26 payments a year)
+                // Approx: payment happens every 14 days. 
+                // We will approximate by doing monthly logic but with (monthlyPI * 13/12) as payment
+                
+                let biBalance = loanAmount;
+                let effectiveMonthly = monthlyPI * (13/12); // The math equivalent
+                let biMonths = 0;
+                let biTotalInt = 0;
+
+                while (biBalance > 0 && biMonths < 720) {
+                    let interest = biBalance * monthRate;
+                    let princ = effectiveMonthly - interest;
+                    if(princ > biBalance) princ = biBalance;
+                    biBalance -= princ;
+                    biTotalInt += interest;
+                    biMonths++;
+                }
+                
+                let biFinalDate = new Date(startYear, startMonth - 1 + biMonths);
+                document.getElementById('res-bi-date').innerText = biFinalDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                document.getElementById('res-bi-save').innerText = formatMoney(totalInterest - biTotalInt);
+            } else {
+                biBox.style.display = 'none';
+            }
+            
+            showToast('Calculated Successfully');
+        }
+
+    </script>
+</body>
+</html>
