@@ -1,4 +1,7 @@
-const CACHE_NAME = 'kashif-calc-v3'; // Updated version to force refresh
+// UPDATED: Version v4 to force all phones to re-download your new code
+const CACHE_NAME = 'kashif-pro-v4';
+
+// LIST OF ALL FILES TO SAVE OFFLINE
 const ASSETS = [
   './',
   './index.html',
@@ -18,8 +21,9 @@ const ASSETS = [
   './icon.png'
 ];
 
-// 1. Install Event: Caches all files
+// 1. Install Event: Downloads all files
 self.addEventListener('install', (e) => {
+  self.skipWaiting(); // Forces new service worker to take over immediately
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS);
@@ -27,7 +31,7 @@ self.addEventListener('install', (e) => {
   );
 });
 
-// 2. Activate Event: Cleans up old versions (v1, v2)
+// 2. Activate Event: Deletes OLD cache versions
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keyList) => {
