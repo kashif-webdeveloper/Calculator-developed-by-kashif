@@ -1,5 +1,5 @@
-// UPDATED: Version v5 to force all phones to re-download your new SEO & CSS
-const CACHE_NAME = 'kashif-pro-v5';
+// UPDATED: Version v6 to force all phones to download the new Install Button code
+const CACHE_NAME = 'kashif-pro-v6';
 
 // LIST OF ALL FILES TO SAVE OFFLINE
 const ASSETS = [
@@ -31,7 +31,7 @@ self.addEventListener('install', (e) => {
   );
 });
 
-// 2. Activate Event: Deletes OLD cache versions (v1, v2, v3, v4...)
+// 2. Activate Event: Deletes OLD cache versions (v1...v5)
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keyList) => {
