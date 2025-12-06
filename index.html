@@ -15,10 +15,10 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Kashif's Pro Calculator - The ultimate free scientific calculator for web and mobile. Solve complex algebra, trigonometry, and finance problems with privacy-focused local processing.">
-    <meta name="keywords" content="scientific calculator, free online calculator, trigonometry calculator, log calculator, mortgage calculator, PWA calculator, privacy focused calculator">
+    <meta name="description" content="Kashif's Pro Calculator - Free online scientific calculator for FSC, Matric, and Engineering students. Calculate mortgage, BMI, and standard deviation offline.">
+    <meta name="keywords" content="online calculator, scientific calculator, free math tool, FSC calculator, matric calculator, engineering calculator, mortgage calculator, bmi calculator, kashif dawar">
     
-    <title>Kashif's Pro Calculator | Free Scientific & Financial Tool</title>
+    <title>Kashif's Pro Calculator | Free Scientific & Financial Tools</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
@@ -46,30 +46,30 @@
         <details class="menu-group">
             <summary><span>&#128208;</span> Math Tools</summary>
             <div class="submenu">
-                <a href="standard-deviation.html" class="menu-item" onclick="closeAll()">Standard Deviation</a>
-                <a href="log-calculator.html" class="menu-item" onclick="closeAll()">Log Calculator</a>
-                <a href="exponent.html" class="menu-item" onclick="closeAll()">Exponent Calculator</a>
-                <a href="fraction.html" class="menu-item" onclick="closeAll()">Fraction Calculator</a>
+                <a href="standard-deviation.html" class="menu-item">Standard Deviation</a>
+                <a href="log-calculator.html" class="menu-item">Log Calculator</a>
+                <a href="exponent.html" class="menu-item">Exponent Calculator</a>
+                <a href="fraction.html" class="menu-item">Fraction Calculator</a>
             </div>
         </details>
 
         <details class="menu-group">
             <summary><span>&#128176;</span> Finance</summary>
             <div class="submenu">
-                <a href="percentage.html" class="menu-item" onclick="closeAll()">Percentage Calc</a>
-                <a href="mortgage-calculator.html" class="menu-item" onclick="closeAll()">Mortgage Calc</a>
+                <a href="percentage.html" class="menu-item">Percentage Calc</a>
+                <a href="mortgage-calculator.html" class="menu-item">Mortgage Calc</a>
             </div>
         </details>
 
         <details class="menu-group">
             <summary><span>&#9878;</span> Health</summary>
             <div class="submenu">
-                <a href="bmi-calculator.html" class="menu-item" onclick="closeAll()">BMI Calculator</a>
+                <a href="bmi-calculator.html" class="menu-item">BMI Calculator</a>
             </div>
         </details>
         
         <div class="menu-item" onclick="handleNav('settings')"><span>&#9881;</span> Settings</div>
-        <a href="contact.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>&#128100;</span> Contact Developer</a>
+        <a href="contact.html" class="menu-item"><span>&#128100;</span> Contact Developer</a>
         
         <div class="menu-item" onclick="handleNav('signin')" style="margin-top:auto; background:var(--accent); color:white; justify-content: center; font-weight:bold;">Sign In</div>
     </div>
@@ -148,60 +148,104 @@
         </div>
 
         <div class="seo-section" id="guide-section">
-            <h1>Comprehensive Scientific & Financial Calculator</h1>
-            <p>Welcome to <strong>Kashif's Pro Calculator</strong>, a premier web-based utility designed for precision, speed, and privacy. Unlike traditional app-store downloads that consume storage and track your data, our tool runs directly in your browser as a high-performance Progressive Web App (PWA). Whether you are an engineer calculating structural loads, a student mastering trigonometry, or a finance professional computing interest rates, this platform provides the robust functionality you need.</p>
-            
-            <h2>Why Use This Online Calculator?</h2>
-            <p>In today's digital environment, efficiency is paramount. Our calculator loads instantly and works offline, ensuring you have access to critical mathematical tools even without an internet connection. We bridge the gap between simple handheld devices and complex desktop software.</p>
+            <h1>Kashif's Pro Calculator: Free Online Scientific, Financial & Health Tools</h1>
 
-            <h3>Key Features and Modes</h3>
-            
-            <h4>1. Basic Mode: Everyday Arithmetic</h4>
-            <p>The interface defaults to a clean, high-contrast <strong>Basic Mode</strong> designed for rapid data entry. The oversized buttons prevent errors on touch screens. This mode is ideal for:</p>
+            <p>Welcome to <strong>Kashif's Pro Calculator</strong>, the ultimate <em>free online calculator</em> designed for students, engineers, business owners, and anyone who needs accurate calculations instantly. This <strong>offline calculator</strong> works on mobile, tablet, and desktop, providing precision tools for math, finance, and health calculations without sending your data to the cloud.</p>
+
+            <h2>1. Why Choose Kashif's Pro Calculator?</h2>
+            <p>Unlike traditional online calculators that lag or show too many pop-ups, our <strong>scientific calculator PWA</strong> runs entirely on your device using Client-Side JavaScript. This ensures <strong>zero latency</strong> and <strong>100% privacy</strong>. Whether you’re solving complex trigonometry for an exam, calculating a mortgage repayment, or checking your BMI, all calculations happen locally in your browser.</p>
+
+            <h2>2. Core Features of Our Calculator</h2>
             <ul>
-                <li><strong>Accounting & Ledger Work:</strong> Quick addition and subtraction for balancing sheets.</li>
-                <li><strong>Retail & Shopping:</strong> Calculating discounts, sales tax, and unit prices.</li>
-                <li><strong>Estimation:</strong> Rough order-of-magnitude calculations for project planning.</li>
+                <li><strong>Dual Mode Interface:</strong> Switch effortlessly between <em>Basic</em> (for retail/shopping) and <em>Scientific</em> (for STEM) calculators.</li>
+                <li><strong>Math Tools Suite:</strong> Solve standard deviation, fractions, logarithms, and exponents with ease.</li>
+                <li><strong>Financial Intelligence:</strong> Calculate mortgage EMIs, percentages, and profit margins accurately.</li>
+                <li><strong>Health Monitoring:</strong> Track health trends with our private BMI calculator.</li>
+                <li><strong>Offline & PWA Ready:</strong> Install on your device and use without internet—perfect for students with limited data.</li>
             </ul>
 
-            <h4>2. Scientific Mode: Advanced STEM Functions</h4>
-            <p>By switching to the <strong>Scientific Tab</strong>, you unlock a suite of advanced functions powered by JavaScript's Math library. This mode supports the curriculum for High School and University level STEM subjects.</p>
+            <h2>3. Target Audience</h2>
             <ul>
-                <li><strong>Trigonometry (sin, cos, tan):</strong> Essential for physics (wave analysis), architecture (roof slopes), and engineering. We use high-precision floating-point logic for accurate results.</li>
-                <li><strong>Logarithms (ln, log):</strong> Calculate natural logarithms and base-10 logs, critical for chemistry (pH levels) and information theory.</li>
-                <li><strong>Exponents & Roots:</strong> Handle square roots (√) and powers (x^y) effortlessly for algebra and geometry problems.</li>
-                <li><strong>Constants:</strong> Dedicated keys for Pi (π) and Euler's Number (e) ensure you never have to manually type these infinite decimals.</li>
+                <li><strong>FSC/Matric Students:</strong> Solve physics, math, and trigonometry problems quickly using Radians and degrees.</li>
+                <li><strong>Engineers & College Students:</strong> Use exponents (`x^y`), natural logs (`ln`), and constants like `π` and `e` for high-precision structural calculations.</li>
+                <li><strong>Business Owners:</strong> Quickly calculate VAT, GST, discounts, and reverse percentages.</li>
+                <li><strong>Homeowners:</strong> Plan mortgages and family budgets efficiently without sharing data with banks.</li>
             </ul>
 
-            <h3>Privacy Promise: Local-First Processing</h3>
-            <p>Security is our top priority. Most free online tools upload your data to a remote server to process calculations. <strong>Kashif's Pro Calculator is different.</strong> We use a "Client-Side" architecture. This means every calculation happens 100% on your device's processor (CPU). Your math equations, financial data, and usage patterns never leave your phone or computer. This makes it safe for sensitive business calculations.</p>
+            <h2>4. Specialized Calculator Tools</h2>
+            <p>Explore our dedicated tools accessible via the sidebar menu:</p>
 
-            <h2>Frequently Asked Questions (FAQ)</h2>
-            
-            <p><strong>Q: Is this calculator completely free?</strong><br>
-            A: Yes, this tool is 100% free for both educational and commercial use. We maintain the server costs through unobtrusive advertising.</p>
+            <h3><a href="sci">Scientific Calculator</a></h3>
+            <p>Supports trigonometry (sin, cos, tan), logarithms (ln, log), exponents, square roots, and constants. We use high-precision floating-point arithmetic (IEEE 754) to ensure accuracy for exams and engineering projects.</p>
 
-            <p><strong>Q: Can I use this calculator offline?</strong><br>
-            A: Absolutely. This is a Progressive Web App (PWA). Once you load the page for the first time, our Service Worker caches the necessary files. You can turn on Airplane Mode and the calculator will still function perfectly.</p>
+            <h3><a href="mortgage-calculator.html">Mortgage Calculator</a></h3>
+            <p>Plan your home purchases with ease. Input loan amount, interest rate (APR), and tenure to calculate monthly payments. This helps Pakistani and international users understand the amortization of their loans before visiting a bank.</p>
 
-            <p><strong>Q: How do I install this on my iPhone or Android?</strong><br>
-            A: You do not need the App Store. On <strong>Android (Chrome)</strong>, tap the three dots and select "Add to Home Screen". On <strong>iOS (Safari)</strong>, tap the Share button and select "Add to Home Screen". It will install like a native app.</p>
+            <h3><a href="percentage.html">Percentage Calculator</a></h3>
+            <p>Calculate percentages, tax-inclusive prices, or reverse percentages quickly. Ideal for students solving algebra problems and shopkeepers calculating profit margins.</p>
 
-            <p><strong>Q: Why do I get a "Syntax Error"?</strong><br>
-            A: This usually happens if you have an incomplete equation, such as "5 * ". Ensure your expression is complete before pressing the Equals (=) button. Our system has built-in error detection to help you.</p>
+            <h3><a href="standard-deviation.html">Standard Deviation & Statistics</a></h3>
+            <p>Quickly calculate Population (σ) and Sample (s) deviations. This is essential for statistics homework, data analysis, and quality control in manufacturing.</p>
 
-            <p><strong>Q: Is it accurate for financial calculations?</strong><br>
-            A: We use standard JavaScript floating-point arithmetic (IEEE 754). It is accurate for general financial estimation, mortgage planning, and interest calculations. For high-frequency trading or bank-level accounting, specialized software is recommended.</p>
+            <h3><a href="fraction.html">Fraction Calculator</a></h3>
+            <p>Combine fractions directly (e.g., `1/2 + 3/8`) without converting to decimals. This is incredibly useful for cooking recipes, carpentry measurements, or academic exercises.</p>
 
-            <p><strong>Q: What happens if I clear my browser cache?</strong><br>
-            A: The calculator remembers your "Theme" (Dark/Light) and "Sound" preferences using LocalStorage. If you clear your browser cache, these settings will reset to default, but the calculator will still work immediately.</p>
+            <h3><a href="bmi-calculator.html">BMI Calculator</a></h3>
+            <p>Monitor your health using the World Health Organization standard. Input weight and height to receive instant feedback on Underweight, Normal, Overweight, and Obese categories.</p>
+
+            <h2>5. Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Q1. Is this calculator free?</h3>
+            <p>Yes! <strong>Kashif's Pro Calculator</strong> is free for students, teachers, businesses, and personal use. We support the platform with unobtrusive AdSense ads, keeping it completely free for everyone.</p>
+
+            <h3>Q2. Does it work offline?</h3>
+            <p>Absolutely. As a Progressive Web App (PWA) with Service Worker (`sw.js`) support, the calculator works perfectly without Wi-Fi or mobile data once loaded.</p>
+
+            <h3>Q3. Is it accurate for exams?</h3>
+            <p>Yes. We use standard JavaScript double-precision arithmetic, which is suitable for Matric/FSC students, college, and university-level calculations.</p>
+
+            <h3>Q4. How do I install it on my device?</h3>
+            <p>For Android, tap Chrome’s menu > "Add to Home Screen". On iOS Safari, tap Share > "Add to Home Screen". This installs it as a native app on your phone.</p>
+
+            <h3>Q5. How is my data kept private?</h3>
+            <p>All calculations happen locally on your device (Client-Side). We never store your personal data, finance inputs, or calculation history on our servers.</p>
+
+            <h2>6. Comparison: Why We Are Better</h2>
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse: collapse; margin-top:10px;">
+                    <tr style="background-color: var(--screen); color: var(--accent);">
+                        <th style="padding:10px; text-align:left; border:1px solid var(--text-muted);">Feature</th>
+                        <th style="padding:10px; text-align:left; border:1px solid var(--text-muted);">Kashif's Pro</th>
+                        <th style="padding:10px; text-align:left; border:1px solid var(--text-muted);">Generic Online Calc</th>
+                    </tr>
+                    <tr><td style="padding:10px; border:1px solid var(--text-muted);">Offline Use (PWA)</td><td style="padding:10px; border:1px solid var(--text-muted);">✅ Yes</td><td style="padding:10px; border:1px solid var(--text-muted);">❌ No</td></tr>
+                    <tr><td style="padding:10px; border:1px solid var(--text-muted);">Scientific Functions</td><td style="padding:10px; border:1px solid var(--text-muted);">✅ Complete</td><td style="padding:10px; border:1px solid var(--text-muted);">⚠️ Limited</td></tr>
+                    <tr><td style="padding:10px; border:1px solid var(--text-muted);">Finance Tools</td><td style="padding:10px; border:1px solid var(--text-muted);">✅ Mortgage & %</td><td style="padding:10px; border:1px solid var(--text-muted);">❌ None</td></tr>
+                    <tr><td style="padding:10px; border:1px solid var(--text-muted);">Health (BMI)</td><td style="padding:10px; border:1px solid var(--text-muted);">✅ Included</td><td style="padding:10px; border:1px solid var(--text-muted);">❌ None</td></tr>
+                    <tr><td style="padding:10px; border:1px solid var(--text-muted);">Data Privacy</td><td style="padding:10px; border:1px solid var(--text-muted);">✅ 100% Local</td><td style="padding:10px; border:1px solid var(--text-muted);">❌ Server Tracking</td></tr>
+                </table>
+            </div>
+
+            <h2>7. Final Notes</h2>
+            <p><strong>Kashif's Pro Calculator</strong> is optimized for performance and accuracy. With keywords like "free online calculator," "scientific calculator PWA," "offline calculator," and "FSC math tool," we aim to be the #1 choice for Pakistani and global students. Bookmark this tool today and access all your calculation needs in one place—fast, precise, and secure.</p>
         </div>
         
         <div class="footer-credit">
             Architected & Engineered by <span>Kashif Dawar</span> | <a href="index.html">Home</a> | <a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a>
+            <br><br>
+            &copy; 2025 Kashif Dawar. All Rights Reserved.
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('SW registered'))
+                    .catch(err => console.log('SW failed', err));
+            });
+        }
+    </script>
 </body>
 </html>

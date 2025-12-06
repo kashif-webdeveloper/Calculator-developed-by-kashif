@@ -7,6 +7,7 @@ const overlay = document.getElementById('overlay');
 const themeToggle = document.getElementById('theme-toggle');
 const soundToggle = document.getElementById('sound-toggle');
 
+// Load Preferences on Start
 window.onload = function() {
     if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeToggle.checked = true; }
     if (localStorage.getItem('sound') === 'on') { soundToggle.checked = true; }
@@ -14,11 +15,11 @@ window.onload = function() {
     if(lastRes && lastRes !== "0" && lastRes !== "Error") { resultEl.innerText = lastRes; expression = lastRes; historyEl.innerText = "Restored Session"; }
 };
 
+// Theme & Sound Logic
 function toggleTheme() {
     if (themeToggle.checked) { document.body.classList.add('light-mode'); localStorage.setItem('theme', 'light'); }
     else { document.body.classList.remove('light-mode'); localStorage.setItem('theme', 'dark'); }
 }
-
 function saveSoundPref() { localStorage.setItem('sound', soundToggle.checked ? 'on' : 'off'); }
 
 function playSound() {
@@ -31,6 +32,7 @@ function playSound() {
     osc.connect(gainNode); gainNode.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.1);
 }
 
+// Display & Math Logic
 function updateDisplay() {
     let displayExpr = expression
         .replace(/Math.sin\(/g, 'sin(').replace(/Math.cos\(/g, 'cos(').replace(/Math.tan\(/g, 'tan(')
@@ -83,6 +85,7 @@ function calculate() {
     } catch (err) { resultEl.innerText = "Error"; expression = ""; }
 }
 
+// Keyboard Support
 document.addEventListener('keydown', function(event) {
     const key = event.key;
     if ((key >= '0' && key <= '9') || key === '.') append(key);
@@ -91,6 +94,7 @@ document.addEventListener('keydown', function(event) {
     else if (key === 'Enter' || key === '=') calculate(); else if (key === 'Backspace') del(); else if (key === 'Escape') clearCalc();
 });
 
+// UI Navigation
 function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('active'); }
 function closeAll() {
     sidebar.classList.remove('open'); overlay.classList.remove('active');
@@ -101,23 +105,29 @@ function showToast(msg) {
     const toast = document.getElementById('toast'); toast.innerText = msg; toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
+
 function handleNav(action) {
-    if (action === 'home') { closeAll(); switchTab('basic'); clearCalc(); showToast('Welcome Home'); } 
-    else if (action === 'sci') { closeAll(); switchTab('sci'); showToast('Scientific Mode Activated'); }
-    else if (action === 'settings') { closeAll(); setTimeout(() => { document.getElementById('modal-settings').classList.add('active'); overlay.classList.add('active'); }, 300); }
-    else if (action === 'signin') { closeAll(); setTimeout(() => { document.getElementById('modal-signin').classList.add('active'); overlay.classList.add('active'); }, 300); }
+    if (action === 'home') { 
+        closeAll(); switchTab('basic'); clearCalc(); showToast('Welcome Home'); 
+        window.scrollTo(0,0);
+    } 
+    else if (action === 'sci') { 
+        closeAll(); switchTab('sci'); showToast('Scientific Mode Activated'); 
+        window.scrollTo(0,0);
+    }
+    else if (action === 'settings') { 
+        closeAll(); 
+        setTimeout(() => { document.getElementById('modal-settings').classList.add('active'); overlay.classList.add('active'); }, 300); 
+    }
+    else if (action === 'signin') { 
+        closeAll(); 
+        setTimeout(() => { document.getElementById('modal-signin').classList.add('active'); overlay.classList.add('active'); }, 300); 
+    }
 }
+
 function switchTab(mode) {
     const basicKeys = document.getElementById('basic-keys'); const sciKeys = document.getElementById('sci-keys');
     const tabBasic = document.getElementById('tab-basic'); const tabSci = document.getElementById('tab-sci');
     if (mode === 'basic') { basicKeys.classList.add('active'); sciKeys.classList.remove('active'); tabBasic.classList.add('active'); tabSci.classList.remove('active'); }
     else { basicKeys.classList.remove('active'); sciKeys.classList.add('active'); tabBasic.classList.remove('active'); tabSci.classList.remove('active'); }
-}
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('App Ready', reg.scope))
-            .catch(err => console.log('App Fail', err));
-    });
 }
