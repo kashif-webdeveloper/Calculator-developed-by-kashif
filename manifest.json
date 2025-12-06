@@ -1,23 +1,43 @@
 {
-  "name": "Kashif Pro",
+  "name": "Kashif's Pro Calculator",
   "short_name": "Pro Calc",
+  "description": "A high-performance scientific, financial, and health calculator suite.",
   "start_url": "./index.html",
+  "id": "/index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#1e293b",
   "theme_color": "#1e293b",
   "orientation": "portrait",
+  "categories": [
+    "productivity",
+    "utilities",
+    "education"
+  ],
   "icons": [
     {
       "src": "icon.png",
       "type": "image/png",
       "sizes": "192x192",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icon.png",
       "type": "image/png",
       "sizes": "512x512",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ]
 }

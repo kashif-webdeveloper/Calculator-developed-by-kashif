@@ -208,6 +208,14 @@
         .menu-item:hover, .menu-item.active { background: var(--screen); color: var(--accent); }
         .avatar { width: 70px; height: 70px; background: linear-gradient(135deg, var(--accent), #3b82f6); border-radius: 50%; margin: 30px auto 15px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
+        /* Accordion Styles (ADDED FOR GROUPED NAVIGATION) */
+        details.menu-group { width: 100%; margin-bottom: 5px; }
+        details.menu-group summary { padding: 15px; color: var(--text-muted); list-style: none; cursor: pointer; border-radius: 8px; font-weight: 500; display: flex; gap: 10px; align-items: center; }
+        details.menu-group summary:hover { background: var(--screen); color: var(--accent); }
+        details.menu-group[open] summary { color: var(--accent); font-weight: bold; }
+        .submenu { padding-left: 15px; background: rgba(0,0,0,0.1); border-radius: 0 0 8px 8px; }
+        .submenu .menu-item { font-size: 0.9em; padding: 12px; }
+
         .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 7000; pointer-events: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .toast.show { opacity: 1; bottom: 50px; }
         
@@ -223,7 +231,8 @@
         input:checked + .slider:before { transform: translateX(24px); }
 
         .footer-credit { margin-top: auto; text-align: center; font-size: 0.8rem; color: var(--text-muted); padding: 20px 0; border-top: 1px solid var(--screen); width: 100%; }
-        .footer-credit a { color: var(--accent); text-decoration: none; margin: 0 5px; }
+        .footer-credit span { color: var(--accent); font-weight: 700; }
+        .footer-credit a { color: var(--accent); text-decoration: none; margin: 0 5px; cursor: pointer; }
 
     </style>
 </head>
@@ -236,21 +245,42 @@
         <div style="position:absolute; top:15px; right:15px; font-size:24px; padding:10px; color:var(--text-muted); cursor:pointer;" onclick="closeAll()">&times;</div>
         <div class="profile">
             <div class="avatar">K</div>
-            <h2 style="text-align:center; color:var(--text); margin-bottom:5px;">Kashif</h2>
-            <p style="text-align:center; color:var(--accent); font-size:0.85rem; font-weight:bold;">Pro Tools Suite</p>
+            <h2 style="color:var(--text);">Kashif</h2>
+            <p style="color: var(--accent); font-weight:bold; margin-bottom: 8px; font-size: 0.9rem;">Elite Full-Stack Architect</p>
         </div>
-        <hr style="border:0; border-bottom:1px solid var(--screen); margin:20px 0;">
         
-        <a href="index.html" class="menu-item"><span>&#8962;</span> Home</a>
-        <a href="index.html" class="menu-item"><span>&#8730;</span> Scientific Calculator</a>
-        <div class="menu-item active"><span>&#9878;</span> BMI Calculator</div>
-        <a href="log-calculator.html" class="menu-item"><span>log</span> Log Calculator</a>
-        <a href="exponent.html" class="menu-item"><span>^</span> Exponent Calculator</a>
-        <a href="fraction.html" class="menu-item"><span>½</span> Fraction Calculator</a>
-        <a href="percentage.html" class="menu-item"><span>%</span> Percentage Calculator</a>
-        <a href="mortgage-calculator.html" class="menu-item"><span>&#127969;</span> Mortgage Calculator</a>
+        <a href="index.html" class="menu-item" onclick="closeAll()"><span>&#8962;</span> Home</a>
+        <a href="index.html" class="menu-item" onclick="closeAll()"><span>&#8730;</span> Scientific Mode</a>
+
+        <details class="menu-group">
+            <summary><span>&#128208;</span> Math Tools</summary>
+            <div class="submenu">
+                <a href="standard-deviation.html" class="menu-item" onclick="closeAll()">Standard Deviation</a>
+                <a href="log-calculator.html" class="menu-item" onclick="closeAll()">Log Calculator</a>
+                <a href="exponent.html" class="menu-item" onclick="closeAll()">Exponent Calculator</a>
+                <a href="fraction.html" class="menu-item" onclick="closeAll()">Fraction Calculator</a>
+            </div>
+        </details>
+
+        <details class="menu-group">
+            <summary><span>&#128176;</span> Finance</summary>
+            <div class="submenu">
+                <a href="percentage.html" class="menu-item" onclick="closeAll()">Percentage Calc</a>
+                <a href="mortgage-calculator.html" class="menu-item" onclick="closeAll()">Mortgage Calc</a>
+            </div>
+        </details>
+
+        <details class="menu-group">
+            <summary><span>&#9878;</span> Health</summary>
+            <div class="submenu">
+                <a href="bmi-calculator.html" class="menu-item" style="color:var(--accent); font-weight:bold;" onclick="closeAll()">BMI Calculator</a>
+            </div>
+        </details>
         
-        <div class="menu-item" onclick="openSettings()" style="margin-top:auto;"><span>&#9881;</span> Settings</div>
+        <div class="menu-item" onclick="openSettings()"><span>&#9881;</span> Settings</div>
+        <a href="contact.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>&#128100;</span> Contact Developer</a>
+        
+        <div class="menu-item" onclick="handleNav('signin')" style="margin-top:auto; background:var(--accent); color:white; justify-content: center; font-weight:bold;">Sign In</div>
     </div>
 
     <div class="modal" id="modal-settings">
@@ -472,7 +502,7 @@
         </div>
 
         <div class="footer-credit">
-            Developed by <a href="#">Kashif Dawar</a> | <a href="index.html">Home</a> | <a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Use</a>
+            Architected & Engineered by <span>Kashif Dawar</span> | <a href="index.html">Home</a> | <a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a>
         </div>
     </div>
 
@@ -713,6 +743,15 @@
         function showToast(msg) {
             const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 3000);
+        }
+        
+        function handleNav(action) {
+            // Helper for consistent navigation if needed
+            if (action === 'signin') {
+                closeAll();
+                // Add sign in logic or modal here if it existed in this file, currently placeholdered
+                showToast("Sign In Feature Coming Soon");
+            }
         }
     </script>
 </body>

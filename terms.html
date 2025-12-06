@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Use - Kashif's Pro Calculator</title>
+    
     <style>
+        /* --- RESET & VARIABLES (Standard Suite) --- */
         :root {
             --bg-dark: #0f172a;
             --calc-body: #1e293b;
@@ -12,52 +14,274 @@
             --text: #f1f5f9;
             --text-muted: #94a3b8;
             --accent: #06b6d4;
+            --btn-bg: #475569;
+            --sidebar-bg: #1e293b;
+            --modal-bg: #1e293b;
+            --shadow: rgba(0,0,0,0.5);
         }
-        body { background: var(--bg-dark); color: var(--text); font-family: 'Segoe UI', Roboto, sans-serif; padding: 20px; line-height: 1.6; margin: 0; }
-        .container { max-width: 800px; margin: 0 auto; background: var(--calc-body); padding: 40px; border-radius: 20px; border: 1px solid var(--screen); }
-        h1 { color: var(--accent); border-bottom: 1px solid var(--screen); padding-bottom: 15px; margin-bottom: 25px; }
-        h2 { margin-top: 30px; color: #fff; font-size: 1.2rem; }
+
+        body.light-mode {
+            --bg-dark: #f1f5f9;
+            --calc-body: #ffffff;
+            --screen: #e2e8f0;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --accent: #0891b2;
+            --btn-bg: #cbd5e1;
+            --sidebar-bg: #ffffff;
+            --modal-bg: #ffffff;
+            --shadow: rgba(0,0,0,0.15);
+        }
+
+        body { 
+            background: var(--bg-dark); 
+            color: var(--text); 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            margin: 0; padding: 0; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            line-height: 1.6;
+            transition: background 0.3s; 
+        }
+
+        /* --- HEADER --- */
+        header {
+            height: 60px; background: var(--calc-body); display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; border-bottom: 1px solid var(--screen); z-index: 2000; box-shadow: 0 2px 10px var(--shadow);
+            flex-shrink: 0;
+        }
+        .hamburger { font-size: 24px; cursor: pointer; color: var(--accent); padding: 10px; }
+        .brand { font-size: 18px; font-weight: bold; letter-spacing: 1px; color: var(--text); text-decoration: none; }
+        .brand span { color: var(--accent); }
+
+        /* --- MAIN CONTENT LAYOUT --- */
+        .main-content {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            padding: 20px; overflow-y: auto; position: relative; z-index: 10;
+        }
+
+        /* --- TERMS PAGE SPECIFIC STYLES --- */
+        .container { 
+            max-width: 800px; width: 100%; margin: 0 auto; 
+            background: var(--calc-body); padding: 40px; 
+            border-radius: 20px; border: 1px solid var(--screen); 
+            margin-bottom: 30px;
+        }
+        h1 { color: var(--accent); border-bottom: 1px solid var(--screen); padding-bottom: 15px; margin-bottom: 25px; margin-top: 0; }
+        h2 { margin-top: 30px; color: var(--text); font-size: 1.2rem; }
         p, li { color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem; }
         ul { padding-left: 20px; }
-        a { color: var(--accent); text-decoration: none; }
-        .footer-nav { margin-top: 40px; border-top: 1px solid var(--screen); padding-top: 20px; text-align: center; }
+        strong { color: var(--text); }
+
+        /* --- SIDEBAR & NAVIGATION --- */
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 4000; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(2px); }
+        .overlay.active { opacity: 1; pointer-events: all; }
+
+        .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: var(--sidebar-bg); z-index: 5000; transition: transform 0.3s ease, background 0.3s; box-shadow: 5px 0 20px var(--shadow); padding: 20px; display: flex; flex-direction: column; overflow-y: auto; }
+        .sidebar.open { transform: translateX(300px); }
+
+        .profile { text-align: center; border-bottom: 1px solid var(--screen); padding-bottom: 20px; margin-bottom: 20px; }
+        .avatar { width: 80px; height: 80px; background: linear-gradient(45deg, var(--accent), #3b82f6); border-radius: 50%; margin: 40px auto 15px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; color: white; }
+        
+        .menu-item { padding: 15px; color: var(--text-muted); border-radius: 8px; margin-bottom: 5px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; text-decoration: none; }
+        .menu-item:hover, .menu-item:active { background: var(--screen); color: var(--accent); }
+
+        /* Accordion Styles */
+        details.menu-group { width: 100%; margin-bottom: 5px; }
+        details.menu-group summary { padding: 15px; color: var(--text-muted); list-style: none; cursor: pointer; border-radius: 8px; font-weight: 500; display: flex; gap: 10px; align-items: center; }
+        details.menu-group summary:hover { background: var(--screen); color: var(--accent); }
+        details.menu-group[open] summary { color: var(--accent); font-weight: bold; }
+        .submenu { padding-left: 15px; background: rgba(0,0,0,0.1); border-radius: 0 0 8px 8px; }
+        .submenu .menu-item { font-size: 0.9em; padding: 12px; }
+
+        /* --- MODALS --- */
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 85%; max-width: 320px; background: var(--modal-bg); border: 1px solid var(--screen); border-radius: 16px; padding: 20px; z-index: 6000; opacity: 0; pointer-events: none; transition: 0.2s, background 0.3s; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .modal.active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
+        .modal h3 { margin-bottom: 15px; color: var(--accent); text-align: center; }
+        .input-group-modal { margin-bottom: 15px; }
+        .input-group-modal label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
+        .input-group-modal input { width: 100%; padding: 10px; background: var(--bg-dark); border: 1px solid var(--screen); color: var(--text); border-radius: 6px; }
+        .modal-btn { width: 100%; background: var(--accent); color: white; font-weight: bold; padding: 12px; border-radius: 6px; margin-top: 10px; display: block; text-align: center; text-decoration: none; border: none; cursor: pointer; }
+        .close-modal { position: absolute; top: 10px; right: 15px; color: var(--text-muted); font-size: 24px; cursor: pointer; }
+
+        /* SWITCHES */
+        .switch-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 10px; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--screen); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 10px 20px; border-radius: 30px; font-size: 14px; opacity: 0; transition: 0.3s; z-index: 7000; pointer-events: none; }
+        .toast.show { opacity: 1; bottom: 50px; }
+
+        /* --- FOOTER --- */
+        .footer-credit { margin-top: auto; text-align: center; font-size: 0.8rem; color: var(--text-muted); padding: 20px 0; border-top: 1px solid var(--screen); width: 100%; }
+        .footer-credit span { color: var(--accent); font-weight: 700; }
+        .footer-credit a { color: var(--accent); text-decoration: none; margin: 0 5px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Terms of Use</h1>
-        <p><strong>Last Updated:</strong> December 2, 2025</p>
 
-        <p>Welcome to <strong>Kashif's Pro Calculator</strong>. By accessing this website (kashif-webdeveloper.github.io), you agree to be bound by these Terms and Conditions of Use, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws.</p>
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+    <div class="toast" id="toast">Action Successful</div>
 
-        <h2>1. Use License</h2>
-        <p>Permission is granted to temporarily use the materials (software and calculation tools) on Kashif's Pro Calculator for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license, you may not:</p>
-        <ul>
-            <li>Modify or copy the materials;</li>
-            <li>Use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li>
-            <li>Attempt to decompile or reverse engineer any software contained on Kashif's Pro Calculator website;</li>
-            <li>Remove any copyright or other proprietary notations from the materials.</li>
-        </ul>
+    <div class="sidebar" id="sidebar">
+        <div style="position:absolute; top:15px; right:15px; font-size:24px; padding:10px; color:var(--text-muted); cursor:pointer;" onclick="closeAll()">&times;</div>
+        
+        <div class="profile">
+            <div class="avatar">K</div>
+            <h2 style="color:var(--text);">Kashif</h2>
+            <p style="color: var(--accent); font-weight:bold; margin-bottom: 8px; font-size: 0.9rem;">Elite Full-Stack Architect</p>
+            <p style="color: var(--text-muted); font-size: 0.8rem;">Innovative developer creating seamless solutions.</p>
+        </div>
+        
+        <a href="index.html" class="menu-item" onclick="closeAll()"><span>&#8962;</span> Home</a>
+        <a href="index.html" class="menu-item" onclick="closeAll()"><span>&#8730;</span> Scientific Mode</a>
 
-        <h2>2. Disclaimer</h2>
-        <p>The materials on Kashif's Pro Calculator are provided on an 'as is' basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
-        <p>Further, while we strive for mathematical precision (using standard JavaScript 64-bit floating-point math), we do not warrant or make any representations concerning the absolute accuracy, likely results, or reliability of the use of the materials on its website.</p>
+        <details class="menu-group">
+            <summary><span>&#128208;</span> Math Tools</summary>
+            <div class="submenu">
+                <a href="standard-deviation.html" class="menu-item" onclick="closeAll()">Standard Deviation</a>
+                <a href="log-calculator.html" class="menu-item" onclick="closeAll()">Log Calculator</a>
+                <a href="exponent.html" class="menu-item" onclick="closeAll()">Exponent Calculator</a>
+                <a href="fraction.html" class="menu-item" onclick="closeAll()">Fraction Calculator</a>
+            </div>
+        </details>
 
-        <h2>3. Limitations</h2>
-        <p>In no event shall Kashif's Pro Calculator or its developer be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on this website, even if we have been notified orally or in writing of the possibility of such damage.</p>
+        <details class="menu-group">
+            <summary><span>&#128176;</span> Finance</summary>
+            <div class="submenu">
+                <a href="percentage.html" class="menu-item" onclick="closeAll()">Percentage Calc</a>
+                <a href="mortgage-calculator.html" class="menu-item" onclick="closeAll()">Mortgage Calc</a>
+            </div>
+        </details>
 
-        <h2>4. Accuracy of Materials</h2>
-        <p>The materials appearing on the website could include technical, typographical, or photographic errors. We do not warrant that any of the materials on its website are accurate, complete, or current. We may make changes to the materials contained on its website at any time without notice.</p>
+        <details class="menu-group">
+            <summary><span>&#9878;</span> Health</summary>
+            <div class="submenu">
+                <a href="bmi-calculator.html" class="menu-item" onclick="closeAll()">BMI Calculator</a>
+            </div>
+        </details>
+        
+        <div class="menu-item" onclick="handleNav('settings')"><span>&#9881;</span> Settings</div>
+        <a href="contact.html" class="menu-item" onclick="closeAll()"><span>&#128100;</span> Contact Developer</a>
+        
+        <div class="menu-item" onclick="handleNav('signin')" style="margin-top:auto; background:var(--accent); color:white; justify-content: center; font-weight:bold;">Sign In</div>
+    </div>
 
-        <h2>5. Modifications</h2>
-        <p>We may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.</p>
+    <div class="modal" id="modal-signin">
+        <span class="close-modal" onclick="closeAll()">&times;</span>
+        <h3>Sign In</h3>
+        <div class="input-group-modal"><label>Email</label><input type="email" placeholder="Enter email"></div>
+        <div class="input-group-modal"><label>Password</label><input type="password" placeholder="Enter password"></div>
+        <button class="modal-btn" onclick="showToast('Welcome back, Kashif!'); closeAll()">Login</button>
+    </div>
 
-        <h2>6. Governing Law</h2>
-        <p>These terms and conditions are governed by and construed in accordance with the laws of Pakistan and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
+    <div class="modal" id="modal-settings">
+        <span class="close-modal" onclick="closeAll()">&times;</span>
+        <h3>Settings</h3>
+        <div class="switch-container">
+            <span class="switch-label" style="color:var(--text)">Light Mode</span>
+            <label class="switch"><input type="checkbox" id="theme-toggle" onchange="toggleTheme()"><span class="slider"></span></label>
+        </div>
+        <div class="switch-container">
+            <span class="switch-label" style="color:var(--text)">Button Sounds</span>
+            <label class="switch"><input type="checkbox" id="sound-toggle" onchange="saveSoundPref()"><span class="slider"></span></label>
+        </div>
+        <button class="modal-btn" onclick="showToast('Preferences Saved'); closeAll()">Done</button>
+    </div>
 
-        <div class="footer-nav">
-            <a href="index.html">&larr; Return to Calculator</a> | <a href="privacy.html">Privacy Policy</a>
+    <header>
+        <div class="hamburger" onclick="openSidebar()">&#9776;</div>
+        <a href="index.html" class="brand">Kashif <span>Pro</span></a>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <h1>Terms of Use</h1>
+            <p><strong>Last Updated:</strong> December 2, 2025</p>
+
+            <p>Welcome to <strong>Kashif's Pro Calculator</strong>. By accessing this website (kashif-webdeveloper.github.io), you agree to be bound by these Terms and Conditions of Use, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws.</p>
+
+            <h2>1. Use License</h2>
+            <p>Permission is granted to temporarily use the materials (software and calculation tools) on Kashif's Pro Calculator for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license, you may not:</p>
+            <ul>
+                <li>Modify or copy the materials;</li>
+                <li>Use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li>
+                <li>Attempt to decompile or reverse engineer any software contained on Kashif's Pro Calculator website;</li>
+                <li>Remove any copyright or other proprietary notations from the materials.</li>
+            </ul>
+
+            <h2>2. Disclaimer</h2>
+            <p>The materials on Kashif's Pro Calculator are provided on an 'as is' basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+            <p>Further, while we strive for mathematical precision (using standard JavaScript 64-bit floating-point math), we do not warrant or make any representations concerning the absolute accuracy, likely results, or reliability of the use of the materials on its website.</p>
+
+            <h2>3. Limitations</h2>
+            <p>In no event shall Kashif's Pro Calculator or its developer be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on this website, even if we have been notified orally or in writing of the possibility of such damage.</p>
+
+            <h2>4. Accuracy of Materials</h2>
+            <p>The materials appearing on the website could include technical, typographical, or photographic errors. We do not warrant that any of the materials on its website are accurate, complete, or current. We may make changes to the materials contained on its website at any time without notice.</p>
+
+            <h2>5. Modifications</h2>
+            <p>We may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.</p>
+
+            <h2>6. Governing Law</h2>
+            <p>These terms and conditions are governed by and construed in accordance with the laws of Pakistan and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
+        </div>
+
+        <div class="footer-credit">
+            Architected & Engineered by <span>Kashif Dawar</span> | <a href="index.html">Home</a> | <a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Use</a>
         </div>
     </div>
+
+    <script>
+        // --- CONFIG & STATE ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const soundToggle = document.getElementById('sound-toggle');
+
+        window.onload = function() {
+            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); if(themeToggle) themeToggle.checked = true; }
+            if (localStorage.getItem('sound') === 'on') { if(soundToggle) soundToggle.checked = true; }
+        };
+
+        // --- NAVIGATION HANDLERS ---
+        function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('active'); }
+        
+        function closeAll() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('modal-signin').classList.remove('active');
+            document.getElementById('modal-settings').classList.remove('active');
+        }
+
+        function handleNav(action) {
+            if (action === 'settings') {
+                closeAll();
+                setTimeout(() => { document.getElementById('modal-settings').classList.add('active'); document.getElementById('overlay').classList.add('active'); }, 300);
+            }
+            else if (action === 'signin') {
+                closeAll();
+                setTimeout(() => { document.getElementById('modal-signin').classList.add('active'); document.getElementById('overlay').classList.add('active'); }, 300);
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast'); toast.innerText = msg; toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // --- SETTINGS LOGIC ---
+        function toggleTheme() {
+            if (themeToggle.checked) { document.body.classList.add('light-mode'); localStorage.setItem('theme', 'light'); }
+            else { document.body.classList.remove('light-mode'); localStorage.setItem('theme', 'dark'); }
+        }
+        function saveSoundPref() { localStorage.setItem('sound', soundToggle.checked ? 'on' : 'off'); }
+    </script>
+
 </body>
 </html>

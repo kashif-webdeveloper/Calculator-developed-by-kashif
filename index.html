@@ -15,184 +15,17 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Kashif's Pro Calculator - A free, high-performance scientific calculator for the web. Solve algebra, trigonometry, and logarithms instantly with privacy-focused local processing.">
+    <meta name="description" content="Kashif's Pro Calculator - The ultimate free scientific calculator for web and mobile. Solve complex algebra, trigonometry, and finance problems with privacy-focused local processing.">
+    <meta name="keywords" content="scientific calculator, free online calculator, trigonometry calculator, log calculator, mortgage calculator, PWA calculator, privacy focused calculator">
     
-    <title>Kashif's Pro Calculator - Scientific & Basic Web Tool</title>
+    <title>Kashif's Pro Calculator | Free Scientific & Financial Tool</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
     <meta name="theme-color" content="#1e293b">
-    
-    <style>
-        /* --- RESET & CORE --- */
-        :root {
-            --bg-dark: #0f172a;
-            --calc-body: #1e293b;
-            --screen: #334155;
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent: #06b6d4;
-            --btn-bg: #475569;
-            --btn-active: #64748b;
-            --operator: #0ea5e9;
-            --equals: #3b82f6;
-            --danger: #ef4444;
-            --sidebar-bg: #1e293b;
-            --modal-bg: #1e293b;
-            --shadow: rgba(0,0,0,0.5);
-            --card-bg: #334155;
-        }
 
-        body.light-mode {
-            --bg-dark: #f1f5f9;
-            --calc-body: #ffffff;
-            --screen: #e2e8f0;
-            --text: #0f172a;
-            --text-muted: #64748b;
-            --accent: #0891b2;
-            --btn-bg: #cbd5e1;
-            --btn-active: #94a3b8;
-            --operator: #0284c7;
-            --equals: #2563eb;
-            --danger: #dc2626;
-            --sidebar-bg: #ffffff;
-            --modal-bg: #ffffff;
-            --shadow: rgba(0,0,0,0.15);
-            --card-bg: #f8fafc;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; font-family: 'Segoe UI', Roboto, sans-serif; touch-action: manipulation; }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text);
-            height: 100vh; height: 100dvh; width: 100vw;
-            overflow: hidden; display: flex; flex-direction: column;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        /* --- HEADER --- */
-        header {
-            height: 60px; background: var(--calc-body); display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; border-bottom: 1px solid var(--screen); z-index: 2000; box-shadow: 0 2px 10px var(--shadow);
-            transition: background 0.3s; flex-shrink: 0;
-        }
-        .hamburger { font-size: 24px; cursor: pointer; color: var(--accent); padding: 10px; }
-        .brand { font-size: 18px; font-weight: bold; letter-spacing: 1px; color: var(--text); }
-        .brand span { color: var(--accent); }
-
-        /* --- MAIN CONTENT --- */
-        .main-content {
-            flex: 1; display: flex; flex-direction: column; align-items: center;
-            padding: 20px 10px; position: relative; z-index: 10; overflow-y: auto;
-        }
-
-        .calc-body {
-            width: 100%; max-width: 400px; background: var(--calc-body); border-radius: 20px; padding: 20px;
-            box-shadow: 0 10px 25px var(--shadow); display: flex; flex-direction: column; position: relative;
-            z-index: 20; transition: background 0.3s; margin-bottom: 20px; flex-shrink: 0;
-        }
-
-        /* --- SCROLL INDICATOR --- */
-        .scroll-indicator {
-            color: var(--accent);
-            text-align: center;
-            font-weight: bold;
-            font-size: 12px;
-            margin-bottom: 30px;
-            cursor: pointer;
-            animation: bounce 2s infinite;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-5px);}
-            60% {transform: translateY(-3px);}
-        }
-
-        /* --- SEO CONTENT --- */
-        .seo-section {
-            width: 100%; max-width: 800px; margin-top: 10px; padding: 30px;
-            background: var(--calc-body); border-radius: 12px; border: 1px solid var(--screen);
-            color: var(--text); margin-bottom: 20px; box-shadow: 0 4px 6px var(--shadow);
-        }
-        .seo-section h2 { color: var(--accent); font-size: 1.6rem; margin-bottom: 20px; border-bottom: 1px solid var(--screen); padding-bottom: 10px; }
-        .seo-section h3 { color: var(--text); font-size: 1.3rem; margin-top: 25px; margin-bottom: 15px; font-weight: 600; }
-        .seo-section h4 { color: var(--text-muted); font-size: 1.1rem; margin-top: 15px; margin-bottom: 10px; }
-        .seo-section p { font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 15px; text-align: justify; }
-        .seo-section ul, .seo-section ol { list-style: none; padding: 0; margin-bottom: 15px; }
-        .seo-section li { margin-bottom: 12px; padding-left: 15px; border-left: 3px solid var(--accent); color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
-        .seo-section strong { color: var(--text); }
-
-        /* --- FOOTER CREDIT --- */
-        .footer-credit {
-            margin-top: auto; text-align: center; font-size: 0.8rem; color: var(--text-muted);
-            padding: 20px 0; width: 100%; border-top: 1px solid var(--screen);
-        }
-        .footer-credit span { color: var(--accent); font-weight: 700; }
-        .footer-credit a { color: var(--accent); text-decoration: none; margin: 0 5px; cursor: pointer; }
-
-        /* --- TABS & DISPLAY --- */
-        .tabs { display: flex; background: var(--bg-dark); border-radius: 10px; padding: 4px; margin-bottom: 15px; transition: background 0.3s; }
-        .tab { flex: 1; text-align: center; padding: 12px; font-size: 14px; border-radius: 8px; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
-        .tab.active { background: var(--accent); color: white; font-weight: bold; }
-
-        .display { background: var(--screen); height: 100px; border-radius: 12px; margin-bottom: 15px; padding: 15px; text-align: right; display: flex; flex-direction: column; justify-content: space-between; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); transition: background 0.3s; }
-        .history { font-size: 14px; color: var(--text-muted); height: 20px; overflow: hidden; white-space: nowrap; }
-        .result { font-size: 40px; font-weight: bold; color: var(--text); white-space: nowrap; overflow-x: hidden; transition: font-size 0.1s ease; }
-
-        /* --- KEYPADS --- */
-        .keypad { display: none; gap: 10px; }
-        .keypad.active { display: grid; }
-        #basic-keys { grid-template-columns: repeat(4, 1fr); }
-        #sci-keys { grid-template-columns: repeat(5, 1fr); }
-
-        button { border: none; background: var(--btn-bg); color: white; font-size: 20px; padding: 15px 0; border-radius: 12px; cursor: pointer; user-select: none; box-shadow: 0 4px 0 rgba(0,0,0,0.2); position: relative; overflow: hidden; outline: none; transition: transform 0.1s, box-shadow 0.1s, filter 0.2s; }
-        body.light-mode button { color: #1e293b; }
-        body.light-mode .btn-eq, body.light-mode .btn-ac, body.light-mode .btn-op { color: white; }
-        button:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.2); filter: brightness(1.1); }
-        .btn-op { background: var(--screen); color: var(--accent); font-weight: bold; }
-        .btn-eq { background: var(--equals); color: white; font-weight: bold; }
-        .btn-ac { background: var(--danger); color: white; }
-        .btn-sci { background: var(--screen); font-size: 14px; color: var(--text); }
-
-        /* --- SIDEBAR & OVERLAY --- */
-        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 4000; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(2px); }
-        .overlay.active { opacity: 1; pointer-events: all; }
-
-        .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: var(--sidebar-bg); z-index: 5000; transition: transform 0.3s ease, background 0.3s; box-shadow: 5px 0 20px var(--shadow); padding: 20px; display: flex; flex-direction: column; overflow-y: auto; }
-        .sidebar.open { transform: translateX(300px); }
-
-        .profile { text-align: center; border-bottom: 1px solid var(--screen); padding-bottom: 20px; margin-bottom: 20px; }
-        .avatar { width: 80px; height: 80px; background: linear-gradient(45deg, var(--accent), #3b82f6); border-radius: 50%; margin: 40px auto 15px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; color: white; }
-        .menu-item { padding: 15px; color: var(--text-muted); border-radius: 8px; margin-bottom: 5px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; position: relative; z-index: 5001; }
-        .menu-item:hover, .menu-item:active { background: var(--screen); color: var(--accent); }
-
-        /* --- MODALS --- */
-        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 85%; max-width: 320px; background: var(--modal-bg); border: 1px solid var(--screen); border-radius: 16px; padding: 20px; z-index: 6000; opacity: 0; pointer-events: none; transition: 0.2s, background 0.3s; box-shadow: 0 20px 50px rgba(0,0,0,0.6); max-height: 90vh; overflow-y: auto; }
-        .modal.active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
-        .modal h3 { margin-bottom: 15px; color: var(--accent); text-align: center; }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 10px; background: var(--bg-dark); border: 1px solid var(--screen); color: var(--text); border-radius: 6px; }
-        .modal-btn { width: 100%; background: var(--accent); color: white; font-weight: bold; padding: 12px; border-radius: 6px; margin-top: 10px; display: block; text-align: center; text-decoration: none; border: none; cursor: pointer; }
-        .close-modal { position: absolute; top: 10px; right: 15px; color: var(--text-muted); font-size: 24px; cursor: pointer; }
-
-        /* --- SWITCHES --- */
-        .switch-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 10px; }
-        .switch-label { color: var(--text); font-weight: 500; }
-        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--screen); transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent); }
-        input:checked + .slider:before { transform: translateX(24px); }
-
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 10px 20px; border-radius: 30px; font-size: 14px; opacity: 0; transition: 0.3s; z-index: 7000; pointer-events: none; }
-        .toast.show { opacity: 1; bottom: 50px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -200,32 +33,42 @@
     <div class="toast" id="toast">Action Successful</div>
 
     <div class="sidebar" id="sidebar">
-        <div style="position:absolute; top:15px; right:15px; font-size:24px; padding:10px; color:var(--text-muted); cursor:pointer;" onclick="closeAll()">&times;</div>
+        <div class="close-btn" onclick="closeAll()">&times;</div>
         <div class="profile">
             <div class="avatar">K</div>
             <h2 style="color:var(--text);">Kashif</h2>
             <p style="color: var(--accent); font-weight:bold; margin-bottom: 8px; font-size: 0.9rem;">Elite Full-Stack Architect</p>
-            <p style="color: var(--text-muted); font-size: 0.8rem;">Innovative developer creating seamless solutions.</p>
         </div>
         
         <div class="menu-item" onclick="handleNav('home')"><span>&#8962;</span> Home</div>
         <div class="menu-item" onclick="handleNav('sci')"><span>&#8730;</span> Scientific Mode</div>
-        
-        <a href="standard-deviation.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>&#963;</span> Standard Deviation</a>
-        
-        <a href="log-calculator.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>log</span> Log Calculator</a>
-        
-        <a href="exponent.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>^</span> Exponent Calculator</a>
-        
-        <a href="fraction.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>½</span> Fraction Calculator</a>
-        <a href="percentage.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>%</span> Percentage Calculator</a>
-        
-        <a href="bmi-calculator.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>&#9878;</span> BMI Calculator</a>
-        
-        <a href="mortgage-calculator.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>&#127969;</span> Mortgage Calculator</a>
+
+        <details class="menu-group">
+            <summary><span>&#128208;</span> Math Tools</summary>
+            <div class="submenu">
+                <a href="standard-deviation.html" class="menu-item" onclick="closeAll()">Standard Deviation</a>
+                <a href="log-calculator.html" class="menu-item" onclick="closeAll()">Log Calculator</a>
+                <a href="exponent.html" class="menu-item" onclick="closeAll()">Exponent Calculator</a>
+                <a href="fraction.html" class="menu-item" onclick="closeAll()">Fraction Calculator</a>
+            </div>
+        </details>
+
+        <details class="menu-group">
+            <summary><span>&#128176;</span> Finance</summary>
+            <div class="submenu">
+                <a href="percentage.html" class="menu-item" onclick="closeAll()">Percentage Calc</a>
+                <a href="mortgage-calculator.html" class="menu-item" onclick="closeAll()">Mortgage Calc</a>
+            </div>
+        </details>
+
+        <details class="menu-group">
+            <summary><span>&#9878;</span> Health</summary>
+            <div class="submenu">
+                <a href="bmi-calculator.html" class="menu-item" onclick="closeAll()">BMI Calculator</a>
+            </div>
+        </details>
         
         <div class="menu-item" onclick="handleNav('settings')"><span>&#9881;</span> Settings</div>
-        
         <a href="contact.html" class="menu-item" style="text-decoration:none;" onclick="closeAll()"><span>&#128100;</span> Contact Developer</a>
         
         <div class="menu-item" onclick="handleNav('signin')" style="margin-top:auto; background:var(--accent); color:white; justify-content: center; font-weight:bold;">Sign In</div>
@@ -304,209 +147,61 @@
             </div>
         </div>
 
-        <div class="scroll-indicator" onclick="document.getElementById('guide-section').scrollIntoView({behavior: 'smooth'})">
-            READ GUIDE & FEATURES<br>&#8595;
-        </div>
-
         <div class="seo-section" id="guide-section">
-            <h2>The Ultimate Guide to Using Kashif's Scientific Calculator</h2>
-            <p>Welcome to <strong>Kashif's Pro Calculator</strong>, the most responsive, high-performance, and privacy-focused calculation tool available on the modern web. In an era where digital tools are essential for education, engineering, and daily logistics, this application bridges the gap between physical scientific calculators and modern cloud computing. Whether you are a high school student grappling with homework, a university researcher needing quick computations, or a developer testing logic, this tool is optimized for your success.</p>
+            <h1>Comprehensive Scientific & Financial Calculator</h1>
+            <p>Welcome to <strong>Kashif's Pro Calculator</strong>, a premier web-based utility designed for precision, speed, and privacy. Unlike traditional app-store downloads that consume storage and track your data, our tool runs directly in your browser as a high-performance Progressive Web App (PWA). Whether you are an engineer calculating structural loads, a student mastering trigonometry, or a finance professional computing interest rates, this platform provides the robust functionality you need.</p>
             
-            <h3>Core Features and Functionality</h3>
-            <p>We have designed the user experience (UX) to prevent clutter while providing maximum power. The calculator operates in two distinct modes, which you can switch between instantly using the tabs above the display:</p>
+            <h2>Why Use This Online Calculator?</h2>
+            <p>In today's digital environment, efficiency is paramount. Our calculator loads instantly and works offline, ensuring you have access to critical mathematical tools even without an internet connection. We bridge the gap between simple handheld devices and complex desktop software.</p>
+
+            <h3>Key Features and Modes</h3>
             
-            <h4>1. Basic Mode (Standard Arithmetic)</h4>
-            <p>The "Basic" tab is your default view. It is engineered for speed and simplicity. It features a large, easy-to-tap numpad and standard operators (+, -, ×, ÷). This mode is perfect for:</p>
+            <h4>1. Basic Mode: Everyday Arithmetic</h4>
+            <p>The interface defaults to a clean, high-contrast <strong>Basic Mode</strong> designed for rapid data entry. The oversized buttons prevent errors on touch screens. This mode is ideal for:</p>
             <ul>
-                <li><strong>Everyday Finance:</strong> Balancing checkbooks, splitting restaurant bills, and calculating grocery totals.</li>
-                <li><strong>Quick Math:</strong> Simple percentages and unit counting.</li>
-                <li><strong>Touch-Optimized:</strong> The buttons are oversized to ensure accuracy on mobile devices and tablets, reducing "fat-finger" errors.</li>
+                <li><strong>Accounting & Ledger Work:</strong> Quick addition and subtraction for balancing sheets.</li>
+                <li><strong>Retail & Shopping:</strong> Calculating discounts, sales tax, and unit prices.</li>
+                <li><strong>Estimation:</strong> Rough order-of-magnitude calculations for project planning.</li>
             </ul>
 
-            <h4>2. Scientific Mode (Advanced STEM Tools)</h4>
-            <p>By toggling the "Scientific" tab, the interface expands to reveal a suite of advanced mathematical functions. This mode is specifically tailored for STEM students (Science, Technology, Engineering, and Mathematics).</p>
+            <h4>2. Scientific Mode: Advanced STEM Functions</h4>
+            <p>By switching to the <strong>Scientific Tab</strong>, you unlock a suite of advanced functions powered by JavaScript's Math library. This mode supports the curriculum for High School and University level STEM subjects.</p>
+            <ul>
+                <li><strong>Trigonometry (sin, cos, tan):</strong> Essential for physics (wave analysis), architecture (roof slopes), and engineering. We use high-precision floating-point logic for accurate results.</li>
+                <li><strong>Logarithms (ln, log):</strong> Calculate natural logarithms and base-10 logs, critical for chemistry (pH levels) and information theory.</li>
+                <li><strong>Exponents & Roots:</strong> Handle square roots (√) and powers (x^y) effortlessly for algebra and geometry problems.</li>
+                <li><strong>Constants:</strong> Dedicated keys for Pi (π) and Euler's Number (e) ensure you never have to manually type these infinite decimals.</li>
+            </ul>
+
+            <h3>Privacy Promise: Local-First Processing</h3>
+            <p>Security is our top priority. Most free online tools upload your data to a remote server to process calculations. <strong>Kashif's Pro Calculator is different.</strong> We use a "Client-Side" architecture. This means every calculation happens 100% on your device's processor (CPU). Your math equations, financial data, and usage patterns never leave your phone or computer. This makes it safe for sensitive business calculations.</p>
+
+            <h2>Frequently Asked Questions (FAQ)</h2>
             
-            <h3>Deep Dive: Mathematical Functions Explained</h3>
-            <p>To help you get the most out of this tool, here is an educational breakdown of the advanced keys available in Scientific Mode:</p>
+            <p><strong>Q: Is this calculator completely free?</strong><br>
+            A: Yes, this tool is 100% free for both educational and commercial use. We maintain the server costs through unobtrusive advertising.</p>
 
-            <h4>Trigonometric Functions</h4>
-            <p>Trigonometry is the study of relationships between side lengths and angles of triangles. Our calculator handles these operations seamlessly using JavaScript's high-precision floating-point math.</p>
-            <ul>
-                <li><strong>Sine (sin):</strong> Calculates the sine of an angle. This is crucial in physics for analyzing waves, sound frequencies, and alternating current (AC) electricity.</li>
-                <li><strong>Cosine (cos):</strong> Determines the cosine of an angle, frequently used in vector mathematics and engineering statics.</li>
-                <li><strong>Tangent (tan):</strong> Finds the ratio of the opposite side to the adjacent side. Essential for architecture and construction slopes.</li>
-            </ul>
+            <p><strong>Q: Can I use this calculator offline?</strong><br>
+            A: Absolutely. This is a Progressive Web App (PWA). Once you load the page for the first time, our Service Worker caches the necessary files. You can turn on Airplane Mode and the calculator will still function perfectly.</p>
 
-            <h4>Logarithms and Exponentials</h4>
-            <ul>
-                <li><strong>Natural Log (ln):</strong> This calculates the logarithm to the base <em>e</em>. It is indispensable in calculus, specifically for integration and calculating radioactive decay or compound interest.</li>
-                <li><strong>Exponential (exp):</strong> The inverse of the natural log. It calculates <em>e</em> raised to the power of x, used in population growth modeling.</li>
-                <li><strong>Euler's Number (e):</strong> A mathematical constant approximately equal to 2.71828. We have a dedicated button for this constant to ensure maximum precision.</li>
-            </ul>
+            <p><strong>Q: How do I install this on my iPhone or Android?</strong><br>
+            A: You do not need the App Store. On <strong>Android (Chrome)</strong>, tap the three dots and select "Add to Home Screen". On <strong>iOS (Safari)</strong>, tap the Share button and select "Add to Home Screen". It will install like a native app.</p>
 
-            <h4>Powers and Roots</h4>
-            <ul>
-                <li><strong>Square Root (√):</strong> Quickly finds the root of any positive number.</li>
-                <li><strong>Power (^):</strong> Allows you to raise any number to the power of another (e.g., 2^3 = 8). This is vital for algebraic equations.</li>
-            </ul>
+            <p><strong>Q: Why do I get a "Syntax Error"?</strong><br>
+            A: This usually happens if you have an incomplete equation, such as "5 * ". Ensure your expression is complete before pressing the Equals (=) button. Our system has built-in error detection to help you.</p>
 
-            <h3>Why Choose a Web-Based Calculator (PWA)?</h3>
-            <p>Kashif's Pro Calculator is built as a <strong>Progressive Web App (PWA)</strong>. This offers distinct advantages over traditional mobile apps found in the Play Store or App Store:</p>
-            <ol>
-                <li><strong>Zero Installation:</strong> You do not need to download a 50MB file. This tool loads instantly in your browser (Chrome, Safari, Edge, or Firefox).</li>
-                <li><strong>Offline Capability:</strong> Thanks to our advanced Service Worker technology, once you visit this site, it caches the necessary files. You can use the calculator even when you are in "Airplane Mode" or have no internet connection.</li>
-                <li><strong>Cross-Platform:</strong> It works identically on an iPhone, Android, Windows Laptop, Linux machine, or MacBook. The interface automatically adapts to your screen size.</li>
-            </ol>
+            <p><strong>Q: Is it accurate for financial calculations?</strong><br>
+            A: We use standard JavaScript floating-point arithmetic (IEEE 754). It is accurate for general financial estimation, mortgage planning, and interest calculations. For high-frequency trading or bank-level accounting, specialized software is recommended.</p>
 
-            <h3>Privacy and Security: A "Local-First" Approach</h3>
-            <p>In today's digital age, data privacy is a major concern. Many free calculator apps request unnecessary permissions like access to your contacts, location, or photo gallery. <strong>Kashif's Pro Calculator is different.</strong></p>
-            <p>We utilize a client-side architecture. This means that when you type <em>"2 + 2"</em>, the calculation is performed by your device's processor using JavaScript. <strong>Your math equations are never sent to our servers.</strong> We cannot see what you are calculating, ensuring total confidentiality for your financial or academic work.</p>
-
-            <h3>Frequently Asked Questions (FAQ)</h3>
-            <p><strong>Q: Is this calculator free?</strong><br>
-            A: Yes, this tool is 100% free to use for educational and professional purposes. We support the site via unobtrusive advertisements.</p>
-
-            <p><strong>Q: How do I save the web app to my phone?</strong><br>
-            A: On Android (Chrome), tap the three dots and select "Add to Home Screen." On iOS (Safari), tap the Share button and select "Add to Home Screen." It will appear just like a native app.</p>
-
-            <p><strong>Q: Does it support Dark Mode?</strong><br>
-            A: Absolutely. We understand that students and developers often work late at night. Open the sidebar menu, click on <strong>Settings</strong>, and toggle the "Light Mode" switch to revert to our sleek, eye-friendly Dark Mode.</p>
+            <p><strong>Q: What happens if I clear my browser cache?</strong><br>
+            A: The calculator remembers your "Theme" (Dark/Light) and "Sound" preferences using LocalStorage. If you clear your browser cache, these settings will reset to default, but the calculator will still work immediately.</p>
         </div>
         
         <div class="footer-credit">
-            Architected & Engineered by <span>Kashif Dawar</span> | <a href="index.html">Home</a> | <a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Use</a>
+            Architected & Engineered by <span>Kashif Dawar</span> | <a href="index.html">Home</a> | <a href="contact.html">Contact Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a>
         </div>
     </div>
 
-    <script>
-        // --- 1. CONFIG & STATE MANAGEMENT ---
-        let expression = "";
-        let audioCtx = null;
-        const resultEl = document.getElementById('result');
-        const historyEl = document.getElementById('history');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const themeToggle = document.getElementById('theme-toggle');
-        const soundToggle = document.getElementById('sound-toggle');
-
-        window.onload = function() {
-            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeToggle.checked = true; }
-            if (localStorage.getItem('sound') === 'on') { soundToggle.checked = true; }
-            const lastRes = localStorage.getItem('lastResult');
-            if(lastRes && lastRes !== "0" && lastRes !== "Error") { resultEl.innerText = lastRes; expression = lastRes; historyEl.innerText = "Restored Session"; }
-        };
-
-        function toggleTheme() {
-            if (themeToggle.checked) { document.body.classList.add('light-mode'); localStorage.setItem('theme', 'light'); }
-            else { document.body.classList.remove('light-mode'); localStorage.setItem('theme', 'dark'); }
-        }
-
-        function saveSoundPref() { localStorage.setItem('sound', soundToggle.checked ? 'on' : 'off'); }
-
-        function playSound() {
-            if (!soundToggle.checked) return;
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator(); const gainNode = audioCtx.createGain();
-            osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
-            gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-            osc.connect(gainNode); gainNode.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-        }
-
-        function updateDisplay() {
-            let displayExpr = expression.replace(/Math.sin\(/g, 'sin(').replace(/Math.cos\(/g, 'cos(').replace(/Math.tan\(/g, 'tan(').replace(/Math.sqrt\(/g, '√(').replace(/Math.log\(/g, 'ln(').replace(/Math.exp\(/g, 'exp(').replace(/Math.PI/g, 'π').replace(/Math.E/g, 'e').replace(/\*/g, '×').replace(/\//g, '÷');
-            resultEl.innerText = displayExpr || "0";
-            const len = resultEl.innerText.length;
-            if (len > 15) resultEl.style.fontSize = "22px"; else if (len > 10) resultEl.style.fontSize = "30px"; else resultEl.style.fontSize = "40px";
-        }
-
-        function append(val) {
-            playSound();
-            const lastChar = expression.slice(-1); const operators = ['+', '-', '*', '/', '%'];
-            if (expression === "" && operators.includes(val) && val !== '-') return;
-            if (operators.includes(val) && operators.includes(lastChar)) { expression = expression.slice(0, -1) + val; }
-            else if (val === '.') { const parts = expression.split(/[\+\-\*\/]/); const currentNum = parts[parts.length - 1]; if (!currentNum.includes('.')) expression += val; }
-            else { expression += val; }
-            updateDisplay();
-        }
-
-        function clearCalc() { playSound(); expression = ""; historyEl.innerText = ""; localStorage.removeItem('lastResult'); updateDisplay(); }
-        function del() { playSound(); if (expression.length > 0) { expression = expression.slice(0, -1); updateDisplay(); } }
-
-        function calculate() {
-            playSound();
-            try {
-                if(expression === "") return;
-                const safeChars = /^[0-9+\-*/%.()\sMath.sincosqrtloexpPIE]+$/;
-                if (!safeChars.test(expression)) { throw new Error("Invalid Input"); }
-                let displayExpr = resultEl.innerText; historyEl.innerText = displayExpr + " =";
-                let res = eval(expression);
-                if (!isFinite(res) || isNaN(res)) { resultEl.innerText = "Error"; expression = ""; }
-                else { res = parseFloat(res.toFixed(8)); expression = res.toString(); resultEl.innerText = expression; localStorage.setItem('lastResult', expression); updateDisplay(); }
-            } catch (err) { resultEl.innerText = "Error"; expression = ""; }
-        }
-
-        document.addEventListener('keydown', function(event) {
-            const key = event.key;
-            if ((key >= '0' && key <= '9') || key === '.') append(key);
-            else if (key === '+') append('+'); else if (key === '-') append('-'); else if (key === '*') append('*');
-            else if (key === '/') { event.preventDefault(); append('/'); } else if (key === '%') append('%');
-            else if (key === 'Enter' || key === '=') calculate(); else if (key === 'Backspace') del(); else if (key === 'Escape') clearCalc();
-        });
-
-        // --- NAVIGATION LOGIC ---
-        function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('active'); }
-        
-        function closeAll() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('active');
-            document.getElementById('modal-signin').classList.remove('active');
-            document.getElementById('modal-settings').classList.remove('active');
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast'); toast.innerText = msg; toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        function handleNav(action) {
-            // Internal Navigation Handler
-            if (action === 'home') {
-                closeAll();
-                switchTab('basic');
-                clearCalc();
-                showToast('Welcome Home');
-            } 
-            else if (action === 'sci') {
-                closeAll();
-                switchTab('sci');
-                showToast('Scientific Mode Activated');
-            }
-            else if (action === 'settings') {
-                closeAll();
-                setTimeout(() => { document.getElementById('modal-settings').classList.add('active'); overlay.classList.add('active'); }, 300);
-            }
-            else if (action === 'signin') {
-                closeAll();
-                setTimeout(() => { document.getElementById('modal-signin').classList.add('active'); overlay.classList.add('active'); }, 300);
-            }
-        }
-
-        function switchTab(mode) {
-            const basicKeys = document.getElementById('basic-keys'); const sciKeys = document.getElementById('sci-keys');
-            const tabBasic = document.getElementById('tab-basic'); const tabSci = document.getElementById('tab-sci');
-            if (mode === 'basic') { basicKeys.classList.add('active'); sciKeys.classList.remove('active'); tabBasic.classList.add('active'); tabSci.classList.remove('active'); }
-            else { basicKeys.classList.remove('active'); sciKeys.classList.add('active'); tabBasic.classList.remove('active'); tabSci.classList.remove('active'); }
-        }
-
-        // --- PWA REGISTRATION ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('App Ready', reg.scope))
-                    .catch(err => console.log('App Fail', err));
-            });
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
