@@ -1,5 +1,5 @@
-// UPDATED: Version v24 (Manifest Refresh Update)
-const CACHE_NAME = 'kashif-pro-v24';
+// UPDATED: Version v25 (Portfolio Protection Update)
+const CACHE_NAME = 'kashif-pro-v25';
 
 const ASSETS = [
   './',
@@ -34,7 +34,14 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
+  // 1. ADSENSE PROTECTION: Do not cache external links (Google Ads)
   if (!e.request.url.startsWith(self.location.origin)) return;
+
+  // 2. PORTFOLIO PROTECTION: Do not cache or interfere with the Portfolio folder
+  // This line is CRITICAL. It tells the calculator to ignore your portfolio.
+  if (e.request.url.includes('/Kashifdevskills/')) return;
+
+  // 3. Normal Calculator App Caching
   if (e.request.mode === 'navigate' || e.request.headers.get('accept').includes('text/html')) {
     e.respondWith(
       fetch(e.request).then((res) => {
